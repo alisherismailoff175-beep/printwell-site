@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrintWell AI Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0c10;--surface:#13131a;--surface2:#1a1a24;--border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.12);--accent:#e8c547;--text:#f0f0f8;--muted:#7878a0;--r:10px;--r2:14px;
+}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+header{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border);background:rgba(12,12,16,0.95)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#000}
+.logo-name{font-size:15px;font-weight:700}
+.logo-tag{font-size:11px;color:var(--muted)}
+.ver-badge{background:rgba(232,197,71,0.1);border:1px solid rgba(232,197,71,0.25);color:var(--accent);font-size:11px;font-weight:600;padding:4px 10px;border-radius:100px}
+.app{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 61px)}
+.panel-left{border-right:1px solid var(--border);padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.field{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px}
+.field label{display:block;font-size:11px;color:var(--muted);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:7px}
+.field select,.field input,.field textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'Manrope',sans-serif;font-size:13px;padding:8px 10px;outline:none;transition:border-color 0.15s}
+.field select:focus,.field input:focus,.field textarea:focus{border-color:rgba(232,197,71,0.4)}
+.field textarea{resize:vertical;min-height:90px;line-height:1.6}
+select option{background:#1a1a24}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.15s}
+.chip:hover{border-color:var(--border2);color:var(--text)}
+.chip.active{background:rgba(232,197,71,0.12);border-color:rgba(232,197,71,0.4);color:var(--accent)}
+.gen-btn{width:100%;padding:13px;background:var(--accent);color:#000;border:none;border-radius:var(--r);font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.gen-btn:hover{background:#f0d050;transform:translateY(-1px)}
+.gen-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+.panel-right{padding:24px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0.35;padding:60px 0}
+.empty-icon{font-size:40px;margin-bottom:14px}
+.empty-title{font-size:17px;font-weight:600;margin-bottom:8px}
+.empty-sub{font-size:13px;color:var(--muted);line-height:1.6;max-width:280px}
+.loading{display:none;flex-direction:column;align-items:center;gap:14px;padding:60px 0}
+.loading.show{display:flex}
+.spinner{width:40px;height:40px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-msg{font-size:13px;color:var(--muted)}
+.result-area{display:none;flex-direction:column;gap:12px}
+.result-area.show{display:flex}
+.result-header{display:flex;align-items:center;justify-content:space-between}
+.result-title{font-size:20px;font-weight:700}
+.badge-ok{background:rgba(100,220,130,0.1);border:1px solid rgba(100,220,130,0.25);color:#64dc82;font-size:11px;font-weight:700;padding:4px 12px;border-radius:100px}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:16px;transition:border-color 0.2s}
+.card:hover{border-color:var(--border2)}
+.card.full{grid-column:1/-1}
+.card.gold{border-color:rgba(232,197,71,0.2);background:rgba(232,197,71,0.03)}
+.card-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.card-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.ci-y{background:rgba(232,197,71,0.15)}
+.ci-b{background:rgba(100,160,255,0.15)}
+.ci-g{background:rgba(100,220,130,0.15)}
+.ci-p{background:rgba(200,100,255,0.15)}
+.card-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:0.8px;text-transform:uppercase}
+.card-body{font-size:13px;line-height:1.75;color:var(--text)}
+.palette{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.swatch{display:flex;flex-direction:column;align-items:center;gap:4px}
+.swatch-circle{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:transform 0.15s}
+.swatch-circle:hover{transform:scale(1.1)}
+.swatch-hex{font-size:9px;color:var(--muted);font-weight:600}
+.swatch-name{font-size:9px;color:var(--muted);text-align:center;max-width:44px;line-height:1.2}
+.font-row{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.font-item{background:var(--surface2);border-radius:7px;padding:10px 12px}
+.font-use{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:0.5px;margin-bottom:3px}
+.font-sample{font-size:18px;line-height:1.2}
+.font-why{font-size:10px;color:var(--muted);margin-top:2px}
+.recraft-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.recraft-head{display:flex;align-items:center;gap:8px;padding:12px 16px}
+.recraft-loading{display:flex;align-items:center;gap:10px;padding:16px}
+.mini-spin{width:18px;height:18px;border:2px solid rgba(232,197,71,0.3);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
+.recraft-img{width:100%;display:block}
+.dl-row{padding:10px 16px;display:flex;gap:8px}
+.dl-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border:1px solid var(--border2);border-radius:7px;color:var(--text);font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;text-decoration:none;transition:all 0.15s;background:transparent;cursor:pointer}
+.dl-btn:hover{border-color:var(--accent);color:var(--accent)}
+.action-row{display:flex;gap:8px;flex-wrap:wrap}
+.action-btn{padding:7px 13px;border:1px solid var(--border);border-radius:7px;background:transparent;color:var(--muted);font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s}
+.action-btn:hover{border-color:var(--border2);color:var(--text)}
+.upload-zone{border:1.5px dashed var(--border2);border-radius:var(--r);padding:16px;text-align:center;cursor:pointer;transition:all 0.2s}
+.upload-zone:hover,.upload-zone.has-file{border-color:rgba(232,197,71,0.35);background:rgba(232,197,71,0.03)}
+.upload-text{font-size:12px;color:var(--muted);line-height:1.5}
+.upload-text span{color:var(--accent);font-weight:600}
+.file-ok{font-size:11px;color:var(--accent);font-weight:600;margin-top:4px}
+input[type=file]{display:none}
+.section-title{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;padding:0 2px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">PW</div>
+    <div>
+      <div class="logo-name">PrintWell AI</div>
+      <div class="logo-tag">Дизайнер · Ташкент</div>
+    </div>
+  </div>
+  <span class="ver-badge">beta v2.0</span>
+</header>
+
+<div class="app">
+  <div class="panel-left">
+    <div class="section-title">Задача</div>
+    <div class="field">
+      <label>Тип продукта</label>
+      <select id="product">
+        <option value="birthday party hat">Шапка праздничная</option>
+        <option value="business card">Визитка</option>
+        <option value="flyer">Флаер / Листовка</option>
+        <option value="banner">Баннер</option>
+        <option value="brochure">Брошюра</option>
+        <option value="packaging">Упаковка</option>
+        <option value="sticker label">Наклейка / Этикетка</option>
+        <option value="brand identity">Фирменный стиль</option>
+        <option value="engraving design">Гравировка</option>
+        <option value="calendar">Календарь</option>
+      </select>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Сфера</label>
+        <select id="industry">
+          <option value="celebrations and events">Праздники</option>
+          <option value="restaurant cafe">Ресторан</option>
+          <option value="retail shop">Магазин</option>
+          <option value="medical clinic">Медицина</option>
+          <option value="beauty salon">Красота</option>
+          <option value="IT technology">IT</option>
+          <option value="education">Образование</option>
+          <option value="construction">Строительство</option>
+          <option value="real estate">Недвижимость</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Формат</label>
+        <select id="format">
+          <option value="standard">Стандарт</option>
+          <option value="90x50mm business card">90×50 мм</option>
+          <option value="A4">A4</option>
+          <option value="A5">A5</option>
+          <option value="A3">A3</option>
+          <option value="3x1m banner">3×1 м</option>
+          <option value="custom die-cut shape">Вырубка</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Название / текст</label>
+      <input type="text" id="brand" placeholder="Например: Happy Birthday, Aziz">
+    </div>
+    <div class="field">
+      <label>Описание и пожелания</label>
+      <textarea id="desc" placeholder="Опишите: стиль, цвета, элементы, аудитория..."></textarea>
+    </div>
+    <div class="field">
+      <label>Стиль</label>
+      <div class="chips" id="style-chips">
+        <div class="chip active" data-v="minimalist clean">Минимализм</div>
+        <div class="chip" data-v="premium luxury">Премиум</div>
+        <div class="chip" data-v="bright colorful">Яркий</div>
+        <div class="chip" data-v="traditional classic">Традиционный</div>
+        <div class="chip" data-v="modern trendy">Модный</div>
+        <div class="chip" data-v="uzbek ornamental">Узбекский</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Цвета</label>
+      <div class="chips" id="color-chips">
+        <div class="chip active" data-v="bright festive">🎉 Праздничные</div>
+        <div class="chip" data-v="soft pastel">🌸 Пастельные</div>
+        <div class="chip" data-v="dark premium">🖤 Тёмные</div>
+        <div class="chip" data-v="gold and black">✦ Золото</div>
+        <div class="chip" data-v="natural earthy">🌿 Натуральные</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Файл-нож</label>
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-inp').click()">
+        <div class="upload-text">PDF, SVG или PNG<br><span>нажми для выбора</span></div>
+        <div class="file-ok" id="file-ok"></div>
+      </div>
+      <input type="file" id="file-inp" accept=".pdf,.svg,.png,.jpg">
+    </div>
+    <button class="gen-btn" id="gen-btn" onclick="generate()">✦ Создать дизайн</button>
+  </div>
+
+  <div class="panel-right" id="panel-right">
+    <div class="empty" id="empty">
+      <div class="empty-icon">✦</div>
+      <div class="empty-title">PrintWell AI Дизайнер</div>
+      <div class="empty-sub">Заполни параметры и нажми «Создать дизайн»</div>
+    </div>
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <div class="loading-msg" id="loading-msg">Анализирую задачу...</div>
+    </div>
+    <div class="result-area" id="result-area"></div>
+  </div>
+</div>
+
+<script>
+let selStyle='minimalist clean', selColor='bright festive', uploadedFile=null;
+
+document.querySelectorAll('#style-chips .chip').forEach(c=>{
+  c.onclick=()=>{document.querySelectorAll('#style-chips .chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');selStyle=c.dataset.v};
+});
+document.querySelectorAll('#color-chips .chip').forEach(c=>{
+  c.onclick=()=>{document.querySelectorAll('#color-chips .chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');selColor=c.dataset.v};
+});
+document.getElementById('file-inp').onchange=function(){
+  if(this.files[0]){uploadedFile=this.files[0];document.getElementById('file-ok').textContent='✓ '+this.files[0].name;document.getElementById('upload-zone').classList.add('has-file')}
+};
+
+const msgs=['Анализирую задачу...','Подбираю концепцию...','Формирую палитру...','Генерирую описание...','Почти готово...'];
+
+async function generate(){
+  const product=document.getElementById('product').value;
+  const industry=document.getElementById('industry').value;
+  const format=document.getElementById('format').value;
+  const brand=document.getElementById('brand').value||'';
+  const desc=document.getElementById('desc').value.trim();
+
+  if(!desc){document.getElementById('desc').focus();document.getElementById('desc').style.borderColor='rgba(255,100,100,0.5)';setTimeout(()=>document.getElementById('desc').style.borderColor='',2000);return}
+
+  document.getElementById('empty').style.display='none';
+  document.getElementById('result-area').className='result-area';
+  document.getElementById('result-area').innerHTML='';
+  const load=document.getElementById('loading');
+  load.classList.add('show');
+  document.getElementById('gen-btn').disabled=true;
+
+  let mi=0;
+  const msgEl=document.getElementById('loading-msg');
+  const ti=setInterval(()=>{mi=(mi+1)%msgs.length;msgEl.textContent=msgs[mi]},1800);
+
+  const prompt=`You are a senior art director at PrintWell printing company in Tashkent. A designer needs a complete design brief.
+
+TASK:
+- Product: ${product}
+- Industry: ${industry}
+- Format: ${format}
+- Text/brand name: ${brand||'not specified'}
+- Design style: ${selStyle}
+- Color mood: ${selColor}
+- Description: ${desc}
+
+Reply ONLY with a valid JSON object, no markdown, no extra text:
+{"concept":"2-3 sentences about the concept and mood","palette":[{"hex":"#FF6B35","name":"Color name","role":"usage"},{"hex":"#2D5A27","name":"Color name","role":"usage"},{"hex":"#FFD700","name":"Color name","role":"usage"},{"hex":"#FFFFFF","name":"Color name","role":"usage"}],"typography":[{"name":"Font name","sample":"Sample AaBbCc","use":"headlines","why":"reason"},{"name":"Font name","sample":"Sample AaBbCc","use":"body text","why":"reason"}],"composition":"3-4 sentences about layout and element placement","uniqueDetail":"one unique design detail that makes it stand out","techParams":"300 dpi, CMYK, 3mm bleed, specific printing notes"}`;
+
+  try{
+    const resp=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
+    const data=await resp.json();
+    const text=data.text||'';
+    console.log('Claude text:', text.substring(0,200));
+
+    let json={};
+    try{
+      const s=text.indexOf('{'), e=text.lastIndexOf('}')+1;
+      if(s>=0&&e>s) json=JSON.parse(text.slice(s,e));
+    }catch(e){console.error('parse:',e.message)}
+
+    clearInterval(ti);
+    load.classList.remove('show');
+    renderResult(json, {product,brand,desc,style:selStyle,color:selColor});
+    loadImage(json, {product,brand,desc,style:selStyle});
+
+  }catch(err){
+    clearInterval(ti);
+    load.classList.remove('show');
+    document.getElementById('result-area').innerHTML='<div style="padding:40px;text-align:center;color:var(--muted)">Ошибка. Попробуйте снова.</div>';
+    document.getElementById('result-area').className='result-area show';
+  }
+  document.getElementById('gen-btn').disabled=false;
+}
+
+function renderResult(d, meta){
+  const area=document.getElementById('result-area');
+  area.innerHTML='';
+
+  // Header
+  const h=document.createElement('div');
+  h.className='result-header';
+  h.innerHTML='<div class="result-title">Концепция готова</div><div class="badge-ok">✓ ГОТОВО</div>';
+  area.appendChild(h);
+
+  const grid=document.createElement('div');
+  grid.className='result-grid';
+  area.appendChild(grid);
+
+  // Recraft image placeholder
+  const rw=document.createElement('div');
+  rw.className='recraft-wrap full';
+  rw.id='recraft-wrap';
+  rw.innerHTML=`<div class="recraft-loading"><div class="mini-spin"></div><span style="font-size:13px;color:var(--muted)">Recraft AI генерирует изображение...</span></div>`;
+  grid.appendChild(rw);
+
+  // Concept
+  const concept=d.concept||'—';
+  addCard(grid,'ci-y','💡','Концепция',concept,'full gold');
+
+  // Palette
+  if(d.palette?.length){
+    const c=addCard(grid,'ci-y','🎨','Палитра','','');
+    const pal=document.createElement('div');pal.className='palette';
+    d.palette.forEach(p=>{
+      const sw=document.createElement('div');sw.className='swatch';
+      sw.innerHTML=`<div class="swatch-circle" style="background:${p.hex}" title="Копировать ${p.hex}" onclick="navigator.clipboard&&navigator.clipboard.writeText('${p.hex}')"></div><div class="swatch-hex">${p.hex}</div><div class="swatch-name">${p.name}</div>`;
+      pal.appendChild(sw);
+    });
+    c.querySelector('.card-body').appendChild(pal);
+  }
+
+  // Typography
+  if(d.typography?.length){
+    const c=addCard(grid,'ci-b','✍️','Типографика','','');
+    const fr=document.createElement('div');fr.className='font-row';
+    d.typography.forEach(f=>{
+      const fi=document.createElement('div');fi.className='font-item';
+      fi.innerHTML=`<div class="font-use">${(f.use||'').toUpperCase()}</div><div class="font-sample">${f.sample||f.name}</div><div class="font-why">${f.name} — ${f.why||''}</div>`;
+      fr.appendChild(fi);
+    });
+    c.querySelector('.card-body').appendChild(fr);
+  }
+
+  // Composition
+  if(d.composition) addCard(grid,'ci-p','📐','Композиция',d.composition,'');
+  if(d.uniqueDetail) addCard(grid,'ci-g','✨','Изюминка',d.uniqueDetail,'');
+  if(d.techParams) addCard(grid,'ci-b','⚙️','Техпараметры',d.techParams,'');
+
+  // Actions
+  const acts=document.createElement('div');acts.className='action-row';
+  acts.innerHTML='<button class="action-btn" onclick="generate()">↻ Другой вариант</button>';
+  area.appendChild(acts);
+
+  area.className='result-area show';
+}
+
+function addCard(grid,iconCls,icon,label,body,extra){
+  const c=document.createElement('div');
+  c.className='card '+(extra||'');
+  const head=document.createElement('div');head.className='card-head';
+  head.innerHTML=`<div class="card-icon ${iconCls}">${icon}</div><div class="card-label">${label}</div>`;
+  c.appendChild(head);
+  const bd=document.createElement('div');bd.className='card-body';
+  if(body){const s=document.createElement('span');s.textContent=body;bd.appendChild(s)}
+  c.appendChild(bd);
+  grid.appendChild(c);
+  return c;
+}
+
+async function loadImage(json, meta){
+  try{
+    const concept=json.concept||'';
+    const colors=json.palette?.map(p=>p.name)?.join(', ')||'';
+    const imgPrompt=`Professional print design illustration for ${meta.product}. ${meta.desc}. ${concept} Color palette: ${colors}. Style: ${meta.style}. High quality vector art, vibrant colors, decorative patterns, no text overlays, suitable for commercial printing.`;
+    
+    const resp=await fetch('/api/image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:imgPrompt})});
+    const data=await resp.json();
+    console.log('Recraft response:', JSON.stringify(data));
+
+    const wrap=document.getElementById('recraft-wrap');
+    if(!wrap) return;
+
+    if(data.imageUrl){
+      const svgUrl = data.svgUrl || null;
+      wrap.innerHTML=`
+        <div class="recraft-head">
+          <div class="card-icon ci-y">🎨</div>
+          <div class="card-label">Визуализация — Recraft AI</div>
+          ${svgUrl ? '<div style="margin-left:auto;font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;background:rgba(100,220,130,0.15);color:#64dc82">SVG</div>' : '<div style="margin-left:auto;font-size:11px;padding:3px 8px;border-radius:5px;background:rgba(232,197,71,0.1);color:var(--muted)">PNG</div>'}
+        </div>
+        <img src="${data.imageUrl}" class="recraft-img" alt="Design"/>
+        <div class="dl-row">
+          ${svgUrl ? `<a href="${svgUrl}" target="_blank" download="design.svg" class="dl-btn">⬇ Скачать SVG</a>` : ''}
+          <a href="${data.imageUrl}" target="_blank" download="design.png" class="dl-btn">⬇ Скачать PNG</a>
+          <a href="${data.imageUrl}" target="_blank" class="dl-btn">↗ Открыть</a>
+        </div>`;
+    } else {
+      wrap.innerHTML=`<div style="padding:16px;font-size:12px;color:var(--muted)">Recraft: ${data.error||data.debug||'нет изображения'}</div>`;
+    }
+  }catch(e){
+    console.error('loadImage error:',e);
+    const wrap=document.getElementById('recraft-wrap');
+    if(wrap) wrap.innerHTML=`<div style="padding:16px;font-size:12px;color:var(--muted)">Ошибка Recraft: ${e.message}</div>`;
+  }
+}
+</script>
+</body>
+</html>
