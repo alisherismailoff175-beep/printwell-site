@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/designer", "destination": "/designer/index.html" },
+    { "source": "/finance", "destination": "/finance/index.html" }
+  ]
+}
