@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+    font-family: Unbounded;
+    src: url(../fonts/Unbounded-ExtraLight.woff2);
+    font-display: swap;
+    font-weight: 2 00;
+}
+
+@font-face {
+    font-family: Unbounded;
+    src: url(../fonts/Unbounded-Light.woff2);
+    font-display: swap;
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Unbounded;
+    src: url(../fonts/Unbounded-Regular.woff2);
+    font-display: swap;
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Unbounded;
+    src: url(../fonts/Unbounded-Medium.woff2);
+    font-display: swap;
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Unbounded;
+    src: url(../fonts/Unbounded-SemiBold.woff2);
+    font-display: swap;
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Unbounded;
+    src: url(../fonts/Unbounded-Bold.woff2);
+    font-display: swap;
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: Unbounded;
+    src: url(../fonts/Unbounded-ExtraBold.woff2);
+    font-display: swap;
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: Unbounded;
+    src: url(../fonts/Unbounded-Black.woff2);
+    font-display: swap;
+    font-weight: 900;
+}
+
+@font-face {
+    font-family: Helvetica;
+    src: url(../fonts/HelveticaNeueMedium.woff2);
+    font-display: swap;
+    font-weight: 500;
+}
+
+body {
+    font-family: Unbounded, sans-serif;
+}
+
+.Helvetica {
+    font-family: Helvetica, sans-serif;
+}
+
+@media (max-width: 1500px) {
+    .white__box {
+        gap: 12px !important;
+    }
+
+    .white__box-image {
+        display: flex;
+        flex-direction: column !important;
+    }
+}
+.infinity-track {
+    display: flex;
+    gap: 16px;
+    white-space: nowrap;
+    animation: scroll 15s linear infinite;
+}
+.infinity-track:nth-child(1) {
+    animation-name: scrollLeft;
+}
+
+.infinity-track:nth-child(2) {
+    animation-name: scrollRight;
+}
+
+.infinity-track img {
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes scrollRight {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .infinity-track {
+        animation: scroll 10s linear infinite;
+    }
+}
+
+.gradient-header {
+    background: linear-gradient(270.33deg, #001733 4.23%, #003E81 108.48%);
+}
+
+.sidebar {
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(100%);
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+body.sidebar-open {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.lang__active {
+    background-color: #fff !important;
+    color: #012249 !important;
+}
+
+.line {
+    background-color: white;
+    height: 2px;
+    transition: all 0.3s ease-in-out;
+    transform-origin: center;
+}
+
+.line-1 {
+    width: 12px;
+}
+
+.line-2 {
+    width: 18px;
+}
+
+.line-3 {
+    width: 12px;
+}
+
+#hamburger-btn.open .line-1 {
+    width: 18px;
+    transform: rotate(45deg) translate(4.4px, 4.4px);
+}
+
+#hamburger-btn.open .line-2 {
+    opacity: 0;
+    transform: scale(0);
+}
+
+#hamburger-btn.open .line-3 {
+    width: 18px;
+    transform: rotate(-45deg) translate(4.4px, -4.4px);
+}
+.partner-row {
+    display: flex;
+    flex-wrap: nowrap;
+    will-change: transform;
+}
+
+
+
+
+.animate-scroll-left {
+    display: flex;
+    width: max-content;
+    animation: scroll-left 120s linear infinite;
+}
+
+.animate-scroll-right {
+    display: flex;
+    width: max-content;
+    animation: scroll-right 120s linear infinite;
+}
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes scroll-right {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(50%);
+    }
+}
+.partner-card {
+    transition: transform 0.3s;
+}
