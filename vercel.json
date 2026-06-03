@@ -1,7 +1,6 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/designer", "destination": "/public desiger/index.html" },
-    { "source": "/finance", "destination": "/finance/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
