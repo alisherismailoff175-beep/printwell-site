@@ -1,11 +1,6 @@
 {
   "version": 2,
   "rewrites": [
-<<<<<<< HEAD
     { "source": "/(.*)", "destination": "/index.html" }
-=======
-    { "source": "/designer", "destination": "/public/designer/index.html" },
-    { "source": "/finance", "destination": "/public/finance/index.html" }
->>>>>>> 6bda3082c3d645fa3504cab72a39407d3de47530
   ]
 }
