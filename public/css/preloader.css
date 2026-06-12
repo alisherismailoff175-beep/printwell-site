@@ -1,0 +1,131 @@
+/* ===========================================================================
+   preloader.css — интро-анимация PrintWell (CMYK)
+   Длительность ~2.5s, один раз за сессию (см. preloader.js).
+   Чистый CSS, без библиотек.
+   =========================================================================== */
+
+#pw-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* ---- Две половины «шторки» (фон + раскрытие в фазе 5) ---- */
+.pw-half {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #0a0a0a;
+  z-index: 1;
+  will-change: transform;
+}
+.pw-half--top { top: 0; }
+.pw-half--bottom { bottom: 0; }
+
+#pw-preloader.is-opening .pw-half {
+  transition: transform 0.5s ease-in-out;
+}
+#pw-preloader.is-opening .pw-half--top { transform: translateY(-100%); }
+#pw-preloader.is-opening .pw-half--bottom { transform: translateY(100%); }
+#pw-preloader.is-opening .pw-content {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ---- Контентный слой (поверх половин) ---- */
+.pw-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  pointer-events: none;
+}
+
+/* ---- ФАЗА 2: CMYK-брызги ---- */
+.pw-splashes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+}
+.pw-splash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 130px;
+  height: 130px;
+  margin: -65px 0 0 -65px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  will-change: transform, opacity;
+}
+.pw-splash--tl { background: #00B4D8; animation: pwSplashTL 0.4s ease-out 0.30s forwards; } /* голубой — вверх-влево */
+.pw-splash--tr { background: #E040FB; animation: pwSplashTR 0.4s ease-out 0.35s forwards; } /* пурпурный — вверх-вправо */
+.pw-splash--bl { background: #FFD600; animation: pwSplashBL 0.4s ease-out 0.40s forwards; } /* жёлтый — вниз-влево */
+.pw-splash--br { background: #333333; animation: pwSplashBR 0.4s ease-out 0.45s forwards; } /* чёрный — вниз-вправо */
+
+@keyframes pwSplashTL { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate(-120px, -120px) scale(3); } }
+@keyframes pwSplashTR { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate( 120px, -120px) scale(3); } }
+@keyframes pwSplashBL { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate(-120px,  120px) scale(3); } }
+@keyframes pwSplashBR { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate( 120px,  120px) scale(3); } }
+
+/* ---- ФАЗА 3: логотип (на белом «чипе», т.к. надпись в SVG чёрная) ---- */
+.pw-logo-wrap {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 26px 34px;
+  opacity: 0;
+  transform: scale(0.7);
+  animation: pwLogo 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+  will-change: transform, opacity;
+}
+.pw-logo {
+  width: 280px;
+  max-width: 64vw;
+  height: auto;
+  display: block;
+}
+@keyframes pwLogo {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ---- ФАЗА 4: слоган (побуквенно) ---- */
+.pw-slogan {
+  font-family: Unbounded, sans-serif;
+  font-size: 13px;
+  letter-spacing: 4px;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-align: center;
+  max-width: 90vw;
+}
+.pw-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: pwLetter 0.4s ease forwards;
+  will-change: transform, opacity;
+}
+@keyframes pwLetter {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Мобильный: логотип меньше, брызги не рендерятся (см. JS) ---- */
+@media (max-width: 640px) {
+  .pw-logo { width: 180px; }
+  .pw-logo-wrap { padding: 20px 26px; border-radius: 18px; }
+}
+
+/* ---- prefers-reduced-motion: прелоадер не показываем (страховка к JS) ---- */
+@media (prefers-reduced-motion: reduce) {
+  #pw-preloader { display: none !important; }
+}
