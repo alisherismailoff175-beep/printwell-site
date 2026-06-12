@@ -385,3 +385,735 @@
     animation: none !important;
   }
 }
+
+
+/* ============ SECTION: MARQUEE ============ */
+/* ===========================================================================
+   MARQUEE — бегущая строка логотипов клиентов
+   Подключается: дописать в redesign.css (или @import)
+   Вставка в HTML: вместо <!-- SECTION:MARQUEE --> в index-new.html
+   =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   Секция-обёртка
+   --------------------------------------------------------------------------- */
+.rd-marquee {
+  width: 100%;
+  background: #f8fafc;           /* светлый фон — контраст с тёмным hero */
+  padding: 40px 0 44px;
+  overflow: hidden;
+}
+
+.rd-marquee__inner {
+  max-width: 1656px;
+  margin: 0 auto;
+  /* горизонтальных паддингов нет — полоса идёт от края до края */
+}
+
+/* ---------------------------------------------------------------------------
+   Подпись «Нам доверяют»
+   --------------------------------------------------------------------------- */
+.rd-marquee__title {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.6875rem;           /* 11px */
+  font-weight: 400;
+  font-family: Unbounded, sans-serif;
+  color: #9faec2;                 /* приглушённый */
+  margin: 0 0 28px;
+  user-select: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Вьюпорт с мягкими краями (mask-image)
+   --------------------------------------------------------------------------- */
+.rd-marquee__viewport {
+  position: relative;
+  overflow: hidden;
+  /* мягкое затухание по краям */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   Трек: две группы в ряд, translateX(-50%) перекатывает ровно одну группу
+   --------------------------------------------------------------------------- */
+.rd-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: rdMarqueeScroll 30s linear infinite;
+  will-change: transform;
+}
+
+/* Пауза при наведении на полосу целиком */
+.rd-marquee__viewport:hover .rd-marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes rdMarqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---------------------------------------------------------------------------
+   Одна группа логотипов
+   --------------------------------------------------------------------------- */
+.rd-marquee__group {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  padding: 0 28px;       /* отступ по краям группы — сохраняет ритм при стыке */
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Отдельный логотип
+   --------------------------------------------------------------------------- */
+.rd-marquee__logo {
+  display: block;
+  height: 44px;
+  width: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+  /* grayscale + приглушённость по умолчанию */
+  filter: grayscale(1);
+  opacity: 0.55;
+  transition:
+    filter     0.3s ease,
+    opacity    0.3s ease,
+    transform  0.3s ease;
+  cursor: default;
+  user-select: none;
+  /* избегаем «прыжка» при выделении */
+  -webkit-user-drag: none;
+}
+
+/* Hover на конкретный логотип — цвет, полная непрозрачность, лёгкий масштаб */
+.rd-marquee__logo:hover {
+  filter: grayscale(0);
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+/* ---------------------------------------------------------------------------
+   Мобильные (<=768px) — логотипы чуть меньше, gap теснее
+   --------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .rd-marquee {
+    padding: 28px 0 32px;
+  }
+
+  .rd-marquee__title {
+    font-size: 0.625rem;   /* 10px */
+    letter-spacing: 0.14em;
+    margin-bottom: 20px;
+  }
+
+  .rd-marquee__logo {
+    height: 30px;
+  }
+
+  .rd-marquee__group {
+    gap: 36px;
+    padding: 0 18px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   prefers-reduced-motion — остановить анимацию, показать как статичную строку
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .rd-marquee__track {
+    animation: none;
+  }
+
+  /* Показываем только первую группу; вторая (дубль) скрыта через aria-hidden,
+     но на случай отображения — скрываем и CSS-ом */
+  .rd-marquee__group[aria-hidden="true"] {
+    display: none;
+  }
+
+  .rd-marquee__viewport {
+    overflow-x: auto;
+    /* убираем маску — не нужна для статики */
+    -webkit-mask-image: none;
+    mask-image: none;
+    /* стилизация скроллбара (webkit) */
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+
+  .rd-marquee__viewport::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .rd-marquee__viewport::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .rd-marquee__viewport::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 2px;
+  }
+
+  .rd-marquee__group {
+    padding: 0 24px;
+  }
+}
+
+
+
+/* ============ SECTION: SERVICES ============ */
+/* ============================================================================
+   PrintWell — SECTION SERVICES
+   Файл дописывается (append) в redesign.css или подключается отдельно после него.
+   Все классы с префиксом rd-services*.
+   Токены --rd-* берутся из redesign.css (:root).
+   ============================================================================ */
+
+/* ---------------------------------------------------------------------------
+   Локальные токены секции (расширяют глобальные --rd-*)
+   --------------------------------------------------------------------------- */
+:root {
+  --rd-svc-bg:          #f5f5f7;          /* светлый фон секции */
+  --rd-svc-card-bg:     #ffffff;
+  --rd-svc-card-radius: 16px;
+  --rd-svc-gap:         24px;
+  --rd-svc-text-primary:   #0a0a0a;
+  --rd-svc-text-secondary: #555560;
+  --rd-svc-badge-gold-bg:  #b8860b;       /* тёмное золото для читаемости */
+  --rd-svc-badge-gold-text:#fff7d6;
+  --rd-svc-badge-blue-bg:  #007CFF;
+  --rd-svc-badge-blue-text:#ffffff;
+  --rd-svc-arrow-color:    #007CFF;
+  --rd-svc-card-shadow:    0 2px 12px rgba(0,0,0,0.07);
+  --rd-svc-card-shadow-hover: 0 16px 48px rgba(0,0,0,0.14);
+}
+
+/* ===========================================================================
+   ОБЁРТКА СЕКЦИИ
+   =========================================================================== */
+.rd-services {
+  background-color: var(--rd-svc-bg);
+  padding: 96px 24px 112px;
+}
+
+.rd-services__inner {
+  max-width: 1656px;
+  margin: 0 auto;
+}
+
+/* ===========================================================================
+   ЗАГОЛОВОЧНЫЙ БЛОК
+   =========================================================================== */
+.rd-services__header {
+  margin-bottom: 56px;
+  max-width: 720px;
+}
+
+.rd-services__eyebrow {
+  font-family: Unbounded, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rd-accent);
+  margin: 0 0 14px;
+}
+
+.rd-services__title {
+  font-family: Unbounded, sans-serif;
+  font-size: clamp(1.625rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--rd-svc-text-primary);
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* ===========================================================================
+   СЕТКА КАРТОЧЕК: 4 → 2 → 1 колонки
+   =========================================================================== */
+.rd-services__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--rd-svc-gap);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===========================================================================
+   КАРТОЧКА
+   =========================================================================== */
+.rd-services__card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--rd-svc-card-bg);
+  border-radius: var(--rd-svc-card-radius);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--rd-svc-card-shadow);
+  /* плавный подъём при hover */
+  transition:
+    transform 0.35s var(--rd-ease-out-expo),
+    box-shadow 0.35s var(--rd-ease-out-expo);
+  will-change: transform, box-shadow;
+}
+
+.rd-services__card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--rd-svc-card-shadow-hover);
+}
+
+/* focus-visible: доступность клавиатурной навигации */
+.rd-services__card:focus-visible {
+  outline: 3px solid var(--rd-accent);
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------------------
+   Медиа-зона (картинка / placeholder)
+   --------------------------------------------------------------------------- */
+.rd-services__card-media {
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Zoom при hover на карточке — применяем к .ai-img-placeholder внутри медиа */
+.rd-services__card:hover .rd-services__card-media .ai-img-placeholder,
+.rd-services__card:hover .rd-services__card-media img {
+  transform: scale(1.06);
+}
+
+.rd-services__card-media .ai-img-placeholder,
+.rd-services__card-media img {
+  border-radius: 0;           /* радиус на самой карточке, не на картинке */
+  transition: transform 0.5s var(--rd-ease-out-expo);
+  will-change: transform;
+  display: block;
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------------------
+   Бейджи поверх изображения
+   --------------------------------------------------------------------------- */
+.rd-services__badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-family: Helvetica, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  pointer-events: none;
+  /* лёгкое размытие фона для читаемости */
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.rd-services__badge--gold {
+  background: var(--rd-svc-badge-gold-bg);
+  color: var(--rd-svc-badge-gold-text);
+  box-shadow: 0 2px 8px rgba(184,134,11,0.35);
+}
+
+.rd-services__badge--blue {
+  background: var(--rd-svc-badge-blue-bg);
+  color: var(--rd-svc-badge-blue-text);
+  box-shadow: 0 2px 8px rgba(0,124,255,0.35);
+}
+
+/* ---------------------------------------------------------------------------
+   Тело карточки (текст + стрелка)
+   --------------------------------------------------------------------------- */
+.rd-services__card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 22px 24px 24px;
+  gap: 8px;
+}
+
+.rd-services__card-title {
+  font-family: Unbounded, sans-serif;
+  font-size: clamp(0.875rem, 1.2vw, 1.0625rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--rd-svc-text-primary);
+  margin: 0;
+}
+
+.rd-services__card-desc {
+  font-family: Helvetica, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--rd-svc-text-secondary);
+  margin: 0;
+  flex: 1;
+  /* Ограничиваем 2 строки */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Стрелка → сдвигается вправо при hover карточки */
+.rd-services__card-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--rd-svc-arrow-color);
+  margin-top: 10px;
+  transition: transform 0.3s var(--rd-ease-out-expo);
+  will-change: transform;
+}
+
+.rd-services__card:hover .rd-services__card-arrow {
+  transform: translateX(6px);
+}
+
+/* ===========================================================================
+   АДАПТИВ
+   =========================================================================== */
+
+/* ≤1200px — 3 колонки (широкий планшет / небольшой десктоп) */
+@media (max-width: 1200px) {
+  .rd-services__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ≤900px — 2 колонки (планшет) */
+@media (max-width: 900px) {
+  .rd-services {
+    padding: 72px 20px 88px;
+  }
+  .rd-services__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .rd-services__header {
+    margin-bottom: 40px;
+  }
+}
+
+/* ≤560px — 1 колонка (мобильный) */
+@media (max-width: 560px) {
+  .rd-services {
+    padding: 56px 16px 72px;
+  }
+  .rd-services__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .rd-services__header {
+    margin-bottom: 32px;
+  }
+  /* На мобильных stagger уже отключён глобально в redesign.css */
+}
+
+/* ===========================================================================
+   ДОСТУПНОСТЬ: prefers-reduced-motion
+   Снимает все переходы и анимации зума в медиа
+   =========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .rd-services__card,
+  .rd-services__card-media .ai-img-placeholder,
+  .rd-services__card-media img,
+  .rd-services__card-arrow {
+    transition: none !important;
+    animation: none !important;
+  }
+  .rd-services__card:hover {
+    transform: none;
+  }
+  .rd-services__card:hover .rd-services__card-media .ai-img-placeholder,
+  .rd-services__card:hover .rd-services__card-media img {
+    transform: none;
+  }
+  .rd-services__card:hover .rd-services__card-arrow {
+    transform: none;
+  }
+}
+
+
+
+/* ============ SECTION: ABOUT ============ */
+/* ============================================================================
+   PrintWell — СЕКЦИЯ «О нас»  (rd-about)
+   ----------------------------------------------------------------------------
+   Вставить после блока .ai-img-placeholder в redesign.css.
+   Тёмный фон #0c0c10 — «зеркальный» ответ hero-секции: создаёт ритм
+   dark → light → dark на странице.
+   ============================================================================ */
+
+/* ===========================================================================
+   ТОКЕНЫ СЕКЦИИ
+   =========================================================================== */
+:root {
+  --rd-about-bg:        #0c0c10;
+  --rd-about-num-size:  clamp(5rem, 11vw, 8.75rem); /* 80px → 140px */
+  --rd-about-gold:      #C9A84C;       /* акцент-золото для номеров */
+  --rd-about-stroke:    1.5px;         /* толщина -webkit-text-stroke */
+  --rd-about-divider:   rgba(255, 255, 255, 0.08);
+}
+
+/* ===========================================================================
+   ОБЁРТКА СЕКЦИИ
+   =========================================================================== */
+.rd-about {
+  background: var(--rd-about-bg);
+  color: #fff;
+  font-family: Unbounded, sans-serif;
+  overflow: hidden;
+}
+
+.rd-about__inner {
+  max-width: 1656px;
+  margin: 0 auto;
+  padding: 112px 24px 120px;
+}
+
+/* ===========================================================================
+   ШАПКА СЕКЦИИ
+   =========================================================================== */
+.rd-about__header {
+  margin-bottom: 80px;
+}
+
+.rd-about__eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rd-about-gold);
+  margin-bottom: 20px;
+}
+
+.rd-about__title {
+  margin: 0;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rd-about__title-line {
+  display: block;
+}
+
+.rd-about__title-line--accent {
+  /* градиент от синего акцента к золоту */
+  background-image: linear-gradient(
+    90deg,
+    var(--rd-accent-2, #3D9AFF) 0%,
+    var(--rd-about-gold) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ===========================================================================
+   СЕТКА БЛОКОВ — три колонки с воздухом
+   =========================================================================== */
+.rd-about__blocks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+/* Вертикальный разделитель между блоками */
+.rd-about__block + .rd-about__block {
+  border-left: 1px solid var(--rd-about-divider);
+}
+
+/* ===========================================================================
+   ОДИНОЧНЫЙ БЛОК
+   =========================================================================== */
+.rd-about__block {
+  padding: 48px 40px 48px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+}
+
+/* Сдвиг-лесенка: каждый следующий блок ниже предыдущего */
+.rd-about__block:nth-child(2) {
+  margin-top: 64px;
+}
+.rd-about__block:nth-child(3) {
+  margin-top: 128px;
+}
+
+/* Горизонтальная разделительная линия сверху каждого блока */
+.rd-about__block::before {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--rd-accent, #007CFF) 0%,
+    var(--rd-about-gold) 100%
+  );
+  margin-bottom: -16px; /* компенсирует gap чтобы линия была рядом с номером */
+}
+
+/* ===========================================================================
+   ГИГАНТСКИЙ НОМЕР
+   =========================================================================== */
+.rd-about__block-num {
+  font-family: Unbounded, sans-serif;
+  font-size: var(--rd-about-num-size);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+
+  /* Контурный стиль — прозрачная заливка + stroke */
+  color: transparent;
+  -webkit-text-stroke: var(--rd-about-stroke) var(--rd-about-gold);
+
+  /* Тонкая тень чтобы буквы читались на тёмном фоне */
+  text-shadow: none;
+
+  /* Небольшой смещение вправо для ритма */
+  margin-left: -4px;
+
+  /* Не переносить */
+  white-space: nowrap;
+
+  /* Тонкий полупрозрачный градиент поверх stroke */
+  background-image: linear-gradient(
+    135deg,
+    rgba(201, 168, 76, 0.18) 0%,
+    rgba(0, 124, 255, 0.12) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* ===========================================================================
+   ТЕКСТ БЛОКА
+   =========================================================================== */
+.rd-about__block-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rd-about__block-heading {
+  font-family: Unbounded, sans-serif;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin: 0;
+}
+
+.rd-about__block-text {
+  font-family: Helvetica, sans-serif;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+}
+
+/* ===========================================================================
+   АДАПТИВ — ПЛАНШЕТ (max 1024px)
+   =========================================================================== */
+@media (max-width: 1024px) {
+  .rd-about__blocks {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .rd-about__block + .rd-about__block {
+    border-left: none;
+    border-top: 1px solid var(--rd-about-divider);
+  }
+
+  /* Убираем лесенку на планшете/мобильном */
+  .rd-about__block:nth-child(2),
+  .rd-about__block:nth-child(3) {
+    margin-top: 0;
+  }
+
+  .rd-about__block {
+    padding: 36px 24px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .rd-about__block::before {
+    display: none; /* убираем линию в горизонтальном макете */
+  }
+
+  .rd-about__block-num {
+    font-size: clamp(3.5rem, 12vw, 5rem);
+    flex-shrink: 0;
+    width: clamp(4rem, 14vw, 6rem);
+    margin-left: 0;
+  }
+}
+
+/* ===========================================================================
+   АДАПТИВ — МОБИЛЬНЫЙ (max 640px)
+   =========================================================================== */
+@media (max-width: 640px) {
+  .rd-about__inner {
+    padding: 72px 16px 80px;
+  }
+
+  .rd-about__header {
+    margin-bottom: 48px;
+  }
+
+  .rd-about__block {
+    flex-direction: column;
+    padding: 28px 0;
+    gap: 16px;
+  }
+
+  .rd-about__block + .rd-about__block {
+    border-top: 1px solid var(--rd-about-divider);
+  }
+
+  .rd-about__block-num {
+    font-size: clamp(3rem, 18vw, 4.5rem);
+    width: auto;
+  }
+}

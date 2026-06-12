@@ -283,11 +283,232 @@
     </div>
   </section>
 
-  <!-- SECTION:MARQUEE -->
+  <!-- ===== SECTION:MARQUEE ===== -->
+<section class="rd-marquee" aria-label="Наши клиенты и партнёры">
+  <div class="rd-marquee__inner">
 
-  <!-- SECTION:SERVICES -->
+    <!-- Подпись -->
+    <p class="rd-marquee__title" data-i18n="marquee.title">Нам доверяют</p>
 
-  <!-- SECTION:ABOUT -->
+    <!-- Бесшовная полоса логотипов -->
+    <div class="rd-marquee__viewport" aria-hidden="true">
+      <div class="rd-marquee__track" role="list">
+
+        <!-- Группа 1 (основная) -->
+        <div class="rd-marquee__group" role="presentation">
+          <img src="./img/partners/chevrolet.avif" alt="логотип Chevrolet"    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/huawei.avif"    alt="логотип Huawei"       class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/sqb.avif"       alt="логотип SQB"          class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/xazna.avif"     alt="логотип Xazna"        class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/elma.avif"      alt="логотип Elma"         class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/afka.avif"      alt="логотип Afka"         class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/1.avif"         alt="логотип клиента PrintWell" class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/2.avif"         alt="логотип клиента PrintWell" class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/3.avif"         alt="логотип клиента PrintWell" class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/4.avif"         alt="логотип клиента PrintWell" class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/5.avif"         alt="логотип клиента PrintWell" class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/6.avif"         alt="логотип клиента PrintWell" class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/7.avif"         alt="логотип клиента PrintWell" class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/8.avif"         alt="логотип клиента PrintWell" class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/9.avif"         alt="логотип клиента PrintWell" class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/10.avif"        alt="логотип клиента PrintWell" class="rd-marquee__logo" loading="lazy" height="44">
+        </div>
+
+        <!-- Группа 2 (дубль для бесшовной петли) -->
+        <div class="rd-marquee__group" role="presentation" aria-hidden="true">
+          <img src="./img/partners/chevrolet.avif" alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/huawei.avif"    alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/sqb.avif"       alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/xazna.avif"     alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/elma.avif"      alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/afka.avif"      alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/1.avif"         alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/2.avif"         alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/3.avif"         alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/4.avif"         alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/5.avif"         alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/6.avif"         alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/7.avif"         alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/8.avif"         alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/9.avif"         alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+          <img src="./img/partners/10.avif"        alt=""    class="rd-marquee__logo" loading="lazy" height="44">
+        </div>
+
+      </div><!-- /.rd-marquee__track -->
+    </div><!-- /.rd-marquee__viewport -->
+
+  </div><!-- /.rd-marquee__inner -->
+</section>
+<!-- /SECTION:MARQUEE -->
+
+  <!-- ===== SECTION:SERVICES ===== -->
+<section class="rd-services" aria-labelledby="rd-services-heading" id="services">
+  <div class="rd-services__inner">
+
+    <!-- Заголовок секции -->
+    <div class="rd-services__header reveal">
+      <p class="rd-services__eyebrow" data-i18n="services.eyebrow">Что мы делаем</p>
+      <h2 class="rd-services__title" id="rd-services-heading" data-i18n="services.title">
+        Полный цикл полиграфии&nbsp;— от дизайна до доставки
+      </h2>
+    </div>
+
+    <!-- Сетка карточек: data-stagger на родителе = stagger детей 100ms -->
+    <ul class="rd-services__grid" data-stagger role="list">
+
+      <!-- ——— Карточка 1: Картонная упаковка ——— -->
+      <li class="rd-services__item reveal">
+        <a class="rd-services__card" href="./box.html" aria-label="Картонная упаковка — подробнее">
+          <div class="rd-services__card-media">
+            <!-- AI-IMG: премиальная картонная коробка с тиснёным логотипом и серебряным фольгированием, разложенная рядом с фирменными вкладышами из крафт-бумаги, тёмный графитовый фон, студийный кинематографичный свет с боковой подсветкой, фотореализм, высокое разрешение, 4:3 -->
+            <div class="ai-img-placeholder" style="aspect-ratio:4/3" role="img" aria-label="Картонная упаковка"></div>
+          </div>
+          <div class="rd-services__card-body">
+            <h3 class="rd-services__card-title" data-i18n="services.card1.title">Картонная упаковка</h3>
+            <p class="rd-services__card-desc" data-i18n="services.card1.desc">
+              Гофрокартон, мелованный картон, микрогофра. Любые формы, тиражи и отделки под ваш продукт.
+            </p>
+            <span class="rd-services__card-arrow" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- ——— Карточка 2: Премиум-отделка ——— -->
+      <li class="rd-services__item reveal">
+        <a class="rd-services__card" href="./services.html" aria-label="Премиум-отделка — подробнее">
+          <div class="rd-services__card-media">
+            <!-- AI-IMG: крупный план упаковочной коробки с золотым фольгированием и рельефным тиснением логотипа, рядом деталь Spot UV-покрытия с бликом, чёрный фон с направленным студийным светом, материальная съёмка, фотореализм, кинематографичная тёмная стилистика, 4:3 -->
+            <div class="ai-img-placeholder" style="aspect-ratio:4/3" role="img" aria-label="Премиум-отделка: фольгирование, тиснение, Spot UV"></div>
+            <span class="rd-services__badge rd-services__badge--gold" data-i18n="services.card2.badge">Только у нас</span>
+          </div>
+          <div class="rd-services__card-body">
+            <h3 class="rd-services__card-title" data-i18n="services.card2.title">Премиум-отделка</h3>
+            <p class="rd-services__card-desc" data-i18n="services.card2.desc">
+              Фольгирование, конгревное тиснение и Spot UV — эксклюзивные технологии постпресса в Ташкенте.
+            </p>
+            <span class="rd-services__card-arrow" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- ——— Карточка 3: Текстильная упаковка ——— -->
+      <li class="rd-services__item reveal">
+        <a class="rd-services__card" href="./services.html" aria-label="Текстильная упаковка — подробнее">
+          <div class="rd-services__card-media">
+            <!-- AI-IMG: эко-шопперы и льняные мешочки с нанесёнными фирменными логотипами разных брендов, хлопковые торбы с шелкографией, нейтральный тёмный фон, рассыпанные продуктовые вставки — сухофрукты, чай, косметика, студийный боковой свет, фотореализм, 4:3 -->
+            <div class="ai-img-placeholder" style="aspect-ratio:4/3" role="img" aria-label="Текстильная упаковка"></div>
+            <span class="rd-services__badge rd-services__badge--blue" data-i18n="services.card3.badge">Новинка</span>
+          </div>
+          <div class="rd-services__card-body">
+            <h3 class="rd-services__card-title" data-i18n="services.card3.title">Текстильная упаковка</h3>
+            <p class="rd-services__card-desc" data-i18n="services.card3.desc">
+              Льняные и хлопковые мешочки, шопперы с лого — экоупаковка, которой нет у конкурентов.
+            </p>
+            <span class="rd-services__card-arrow" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- ——— Карточка 4: Полиграфия ——— -->
+      <li class="rd-services__item reveal">
+        <a class="rd-services__card" href="./services.html" aria-label="Полиграфия — подробнее">
+          <div class="rd-services__card-media">
+            <!-- AI-IMG: стопка корпоративных каталогов с глянцевой обложкой и визитки веером крупным планом, рядом брошюра раскрытая на развороте с богатой цветной иллюстрацией, тёмный антрацитовый фон, кинематографичный студийный свет, фотореализм, 4:3 -->
+            <div class="ai-img-placeholder" style="aspect-ratio:4/3" role="img" aria-label="Полиграфия"></div>
+          </div>
+          <div class="rd-services__card-body">
+            <h3 class="rd-services__card-title" data-i18n="services.card4.title">Полиграфия</h3>
+            <p class="rd-services__card-desc" data-i18n="services.card4.desc">
+              Визитки, каталоги, брошюры, листовки — офсетная и цифровая печать любых тиражей.
+            </p>
+            <span class="rd-services__card-arrow" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+  <!-- ===== SECTION:ABOUT ===== -->
+<section class="rd-about" aria-labelledby="rd-about-title">
+  <div class="rd-about__inner">
+
+    <!-- Eyebrow + заголовок -->
+    <div class="rd-about__header reveal" data-i18n-aria-label="about.title">
+      <span class="rd-about__eyebrow reveal" data-i18n="about.eyebrow">О нас</span>
+      <h2 class="rd-about__title" id="rd-about-title">
+        <span class="rd-about__title-line reveal" data-i18n="about.title.line1">20 лет делаем</span>
+        <span class="rd-about__title-line rd-about__title-line--accent reveal" data-i18n="about.title.line2">упаковку, которой доверяют</span>
+      </h2>
+    </div>
+
+    <!-- Три блока-тезиса со stagger -->
+    <div class="rd-about__blocks" data-stagger>
+
+      <!-- Блок 01 -->
+      <article class="rd-about__block reveal">
+        <div class="rd-about__block-num" aria-hidden="true">01</div>
+        <div class="rd-about__block-body">
+          <h3 class="rd-about__block-heading" data-i18n="about.b1.heading">
+            С 2005 года: от Poligraf Group до PrintWell
+          </h3>
+          <p class="rd-about__block-text" data-i18n="about.b1.text">
+            20 лет печатаем для лидеров рынка — и с каждым годом становимся сильнее.
+          </p>
+        </div>
+      </article>
+
+      <!-- Блок 02 -->
+      <article class="rd-about__block reveal">
+        <div class="rd-about__block-num" aria-hidden="true">02</div>
+        <div class="rd-about__block-body">
+          <h3 class="rd-about__block-heading" data-i18n="about.b2.heading">
+            150+ специалистов и европейское оборудование
+          </h3>
+          <p class="rd-about__block-text" data-i18n="about.b2.text">
+            Производственный парк уровня ведущих европейских типографий — прямо в Ташкенте.
+          </p>
+        </div>
+      </article>
+
+      <!-- Блок 03 -->
+      <article class="rd-about__block reveal">
+        <div class="rd-about__block-num" aria-hidden="true">03</div>
+        <div class="rd-about__block-body">
+          <h3 class="rd-about__block-heading" data-i18n="about.b3.heading">
+            Chevrolet, Huawei, SQB доверяют нам
+          </h3>
+          <p class="rd-about__block-text" data-i18n="about.b3.text">
+            Упаковка продуктов мировых брендов — наш ежедневный стандарт качества.
+          </p>
+        </div>
+      </article>
+
+    </div><!-- /rd-about__blocks -->
+
+  </div>
+</section>
 
   <!-- SECTION:CTA -->
 
