@@ -1179,3 +1179,39 @@
     transition: none;
   }
 }
+
+/* =========================================================================
+   ETAP4: КРУПНЫЙ ЛОГОТИП В ШАПКЕ
+   Логотип ×2.5 от исходных 34px (=85px) на десктопе, ×1.5 (=51px) на
+   мобильном (<=768px). Белый чип-подложка (inline-flex + padding) масштабируется
+   вместе с логотипом автоматически. Высоту шапки и смещение мобильного
+   сайдбара подгоняем, чтобы ничего не наезжало на навигацию.
+   ========================================================================= */
+.gradient-header {
+  height: 108px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pw-header-logo {
+  height: 85px;
+  width: auto;
+  display: block;
+}
+
+/* Мобильный сайдбар выезжает из-под шапки — держим его top вровень с высотой шапки */
+#mobile-sidebar.sidebar {
+  top: 108px;
+}
+
+@media (max-width: 768px) {
+  .gradient-header {
+    height: 72px !important;
+  }
+  .pw-header-logo {
+    height: 51px;
+  }
+  #mobile-sidebar.sidebar {
+    top: 72px;
+  }
+}
