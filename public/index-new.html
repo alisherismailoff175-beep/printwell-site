@@ -91,19 +91,19 @@
       <nav class="hidden lg:flex items-center lg:gap-6 gap-3 flex-1 justify-end">
         <ul class="flex items-center lg:gap-6 gap-3">
           <li><a href="./about.html"
-              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]">О
+              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]" data-i18n="nav.about">О
               нас</a></li>
           <li><a href="./services.html"
-              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]">Наши
+              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]" data-i18n="nav.services">Наши
               услуги</a></li>
           <li><a href="./projects.html"
-              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]">Наши
+              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]" data-i18n="nav.projects">Наши
               проекты</a></li>
           <li><a href="./partners.html"
-              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]">Наши
+              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]" data-i18n="nav.partners">Наши
               партнеры</a></li>
           <li><a href="./request.html"
-              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]">Контакты</a>
+              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]" data-i18n="nav.contacts">Контакты</a>
           </li>
           <li class="lg:pl-6 lg:pr-0 px-3 border-l border-[#D9D9D9]">
             <a href="https://facebook.com/pr1ntwell.uz" target="_blank"
@@ -126,6 +126,15 @@
                   fill="currentColor" />
               </svg>
             </a>
+          </li>
+          <li class="lg:px-6 px-3 border-r border-[#D9D9D9]">
+            <div class="rd-lang" role="group" aria-label="Выбор языка / Language">
+              <button type="button" class="rd-lang__btn rd-lang__btn--active" data-lang="ru">RU</button>
+              <span class="rd-lang__sep" aria-hidden="true">|</span>
+              <button type="button" class="rd-lang__btn" data-lang="uz">UZ</button>
+              <span class="rd-lang__sep" aria-hidden="true">|</span>
+              <button type="button" class="rd-lang__btn" data-lang="en">EN</button>
+            </div>
           </li>
           <li>
             <a href="tel:+998 90 903 55 52"
@@ -157,33 +166,33 @@
            translate-x-full
            transition-transform duration-300  will-change-transform">
     <div>
-      <h3 class="text-white text-xl leading-8 mb-4 min-h-[46px]">Menu</h3>
+      <h3 class="text-white text-xl leading-8 mb-4 min-h-[46px]" data-i18n="nav.menu">Menu</h3>
       <ul>
-        <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]" href="./about.html">О
+        <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]" href="./about.html" data-i18n="nav.about">О
             нас</a>
         </li>
         <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]"
-            href="./services.html">Наши
+            href="./services.html" data-i18n="nav.services">Наши
             услуги</a></li>
         <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]"
-            href="./projects.html">Наши
+            href="./projects.html" data-i18n="nav.projects">Наши
             проекты</a></li>
         <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]"
-            href="./partners.html">Наши
+            href="./partners.html" data-i18n="nav.partners">Наши
             партнеры</a></li>
         <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]"
-            href="./request.html">Контакты</a>
+            href="./request.html" data-i18n="nav.contacts">Контакты</a>
         </li>
       </ul>
     </div>
     <div class="flex flex-col gap-2 mt-auto">
       <div class="flex items-center justify-between bg-white/10 p-2 rounded-lg"
         style="backdrop-filter: blur(202.8000030517578px)">
-        <button
+        <button data-lang="ru"
           class="lang__active text-white max-w-[109px] w-full duration-200 hover:bg-white/10 flex items-center justify-center py-3 rounded text-sm leading-4">Рус</button>
-        <button
+        <button data-lang="uz"
           class="text-white max-w-[109px] w-full duration-200 hover:bg-white/10 flex items-center justify-center py-3 rounded text-sm leading-4">Uz</button>
-        <button
+        <button data-lang="en"
           class="text-white max-w-[109px] w-full duration-200 hover:bg-white/10 flex items-center justify-center py-3 rounded text-sm leading-4">Eng</button>
       </div>
       <a href="https://facebook.com/pr1ntwell.uz" target="_blank"
@@ -220,12 +229,13 @@
   <!-- =========================================================================
        HERO
        ========================================================================= -->
-  <section class="rd-hero" aria-label="PrintWell — главный экран">
+  <section class="rd-hero" aria-label="PrintWell — главный экран" data-i18n-attr="aria-label:hero.sectionAria">
     <!-- Фоновое изображение на весь экран (21:9, появится позже) -->
     <div class="rd-hero__media">
       <img
         class="rd-hero__img"
         src="./img/hero-ai.png"
+        data-i18n-attr="alt:hero.imgAlt"
         alt="Премиальная упаковка и полиграфия PrintWell: фольгирование, тиснение, премиум-картон"
         loading="eager"
         fetchpriority="high"
@@ -238,9 +248,9 @@
     <div class="rd-hero__inner">
       <div class="rd-hero__content">
         <!-- 1. Бейдж -->
-        <span class="rd-hero__badge" data-i18n="hero.badge">
+        <span class="rd-hero__badge">
           <span class="rd-hero__badge-dot" aria-hidden="true"></span>
-          ТОП-10 типографий Узбекистана · 20 лет на рынке
+          <span data-i18n="hero.badge">ТОП-10 типографий Узбекистана · 20 лет на рынке</span>
         </span>
 
         <!-- 2. H1 — разбивка на слова делает redesign.js (data-rd-hero-title) -->
@@ -255,8 +265,8 @@
 
         <!-- 4. CTA -->
         <div class="rd-hero__cta-wrap">
-          <a class="rd-hero__cta" href="./request.html" data-i18n="hero.cta">
-            Рассчитать заказ
+          <a class="rd-hero__cta" href="./request.html">
+            <span data-i18n="hero.cta">Рассчитать заказ</span>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" />
@@ -276,7 +286,7 @@
           </div>
           <div class="rd-hero__stat">
             <span class="rd-hero__stat-num count-up" data-target="250" data-suffix="+">0</span>
-            <span class="rd-hero__stat-label" data-i18n="hero.stat3.label">клиентов</span>
+            <span class="rd-hero__stat-label" data-i18n="hero.stat3.label">постоянных клиентов</span>
           </div>
         </div>
       </div>
@@ -524,10 +534,10 @@
             <a href="./index.html">
               <img class="max-w-[132px] w-full mb-8" src="./img/footer/logo.svg" alt="Print well logo">
             </a>
-            <h3 class="text-sm md:text-base font-bold max-w-167.75 w-full mb-4 leading-[1.2] uppercase ">Работайте с
+            <h3 class="text-sm md:text-base font-bold max-w-167.75 w-full mb-4 leading-[1.2] uppercase " data-i18n="footer.tagline">Работайте с
               сильной командой, обладающей
               ценностями.</h3>
-            <p class="text-xs md:text-sm font-light leading-3.5 md:leading-5 max-w-167.75 w-full opacity-50">В PrintWell
+            <p class="text-xs md:text-sm font-light leading-3.5 md:leading-5 max-w-167.75 w-full opacity-50" data-i18n="footer.about">В PrintWell
               мы подходим к
               каждому
               проекту с
@@ -537,28 +547,28 @@
 
           <ul class="flex flex-col sm:flex-row items-start gap-6 md:gap-[35px]">
             <li><a class="text-sm text-white hover:text-[#007CFF] transform duration-500 font-normal leading-[100%]"
-                href="./services.html">Наши
+                href="./services.html" data-i18n="nav.services">Наши
                 услуги</a></li>
             <li><a class="text-sm text-white hover:text-[#007CFF] transform duration-500 font-normal leading-[100%]"
-                href="./projects.html">Наша
+                href="./projects.html" data-i18n="footer.work">Наша
                 работа</a></li>
             <li><a class="text-sm text-white hover:text-[#007CFF] transform duration-500 font-normal leading-[100%]"
-                href="./partners.html">Наши
+                href="./partners.html" data-i18n="nav.partners">Наши
                 партнеры</a></li>
             <li><a class="text-sm text-white hover:text-[#007CFF] transform duration-500 font-normal leading-[100%]"
-                href="./about.html">О
+                href="./about.html" data-i18n="nav.about">О
                 нас</a>
             </li>
             <li><a class="text-sm text-white hover:text-[#007CFF] transform duration-500 font-normal leading-[100%]"
-                href="./request.html">Контакты</a></li>
+                href="./request.html" data-i18n="nav.contacts">Контакты</a></li>
           </ul>
         </div>
         <hr class="w-full h-px bg-white mb-6 opacity-20">
 
         <div
           class="max-w-445 mx-auto text-[#899EB2] text-left flex flex-col md:flex-row md:items-center justify-between font-[Helvetica Neue] px-3">
-          <p class="text-xs lg:text-xl font-light leading-8">Политика конфиденциальности 2025</p>
-          <p class="text-xs lg:text-xl font-light leading-8">Разработано агентством SIDQ</p>
+          <p class="text-xs lg:text-xl font-light leading-8" data-i18n="footer.privacy">Политика конфиденциальности 2025</p>
+          <p class="text-xs lg:text-xl font-light leading-8" data-i18n="footer.dev">Разработано агентством SIDQ</p>
         </div>
       </div>
     </footer>
