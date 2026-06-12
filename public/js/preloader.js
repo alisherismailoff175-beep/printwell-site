@@ -83,7 +83,7 @@
     span.className = 'pw-letter';
     span.setAttribute('aria-hidden', 'true');
     span.textContent = ch === ' ' ? ' ' : ch;
-    span.style.animationDelay = (1.4 + i * 0.04).toFixed(2) + 's';
+    span.style.animationDelay = (1.4 + i * 0.02).toFixed(2) + 's';
     slogan.appendChild(span);
   }
   content.appendChild(slogan);
