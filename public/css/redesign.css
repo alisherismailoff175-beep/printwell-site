@@ -1,0 +1,387 @@
+/* ============================================================================
+   PrintWell — REDESIGN STYLESHEET (parallel new homepage: index-new.html)
+   ----------------------------------------------------------------------------
+   Этот файл НЕ заменяет styles.css. Он подключается ПОСЛЕ него и добавляет:
+     1. Стили HERO-секции (тёмный премиум-герой).
+     2. Переиспользуемую систему скролл-анимаций для будущих секций.
+
+   Шрифт Unbounded и Helvetica уже объявлены через @font-face в styles.css —
+   здесь повторно НЕ объявляем. Используем font-family: Unbounded.
+
+   ----------------------------------------------------------------------------
+   СИСТЕМА СКРОЛЛ-АНИМАЦИЙ — справочник для других разработчиков
+   ----------------------------------------------------------------------------
+   .reveal
+       Базовый класс «появления снизу» (fade-up). Поставь на любой блок секции.
+       Элемент изначально невидим (opacity:0, translateY(28px)). Когда блок
+       входит во вьюпорт, JS (IntersectionObserver, threshold ~0.15, срабатывает
+       один раз) добавляет .is-visible — элемент плавно проявляется.
+
+   .reveal с детьми + data-stagger на РОДИТЕЛЕ
+       Если на родителе стоит data-stagger, то его прямые дети .reveal
+       проявляются по очереди (шаг 100ms). JS проставляет каждому ребёнку
+       CSS-переменную --stagger-i (0,1,2,...). Задержка = i * 100ms.
+       На мобильных (<=768px) и при prefers-reduced-motion stagger отключается.
+
+   .count-up
+       Счётчик «набегающих» чисел. Атрибуты:
+         data-target  — конечное число (например 20000)
+         data-suffix  — приписка справа (например "+")
+         data-duration— (необязательно) длительность в мс, по умолчанию 1800
+         data-group   — (необязательно) "1" чтобы число форматировалось с
+                        пробелом-разделителем тысяч (20 000)
+       JS анимирует от 0 к data-target за data-duration с easeOut, когда
+       элемент появляется во вьюпорте.
+
+   .ai-img-placeholder
+       Заглушка под будущие AI-картинки секций (для HERO НЕ нужна — там реальный
+       <img>). Это <div> с тёмным фоном #1c1c22, нужным aspect-ratio и лёгким
+       градиент-шиммером. Пример использования:
+         <div class="ai-img-placeholder" style="aspect-ratio:4/3"></div>
+       Когда появится реальная картинка — просто замени div на <img>.
+
+   ДОСТУПНОСТЬ:
+     @media (prefers-reduced-motion: reduce) — все анимации/переходы выключены,
+     контент сразу видим.
+   ============================================================================ */
+
+/* --- Дизайн-токены редизайна --- */
+:root {
+  --rd-bg-dark: #0a0a0a;
+  --rd-accent: #007CFF;
+  --rd-accent-2: #3D9AFF;
+  --rd-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ===========================================================================
+   HERO
+   =========================================================================== */
+.rd-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  min-height: 100vh; /* фолбэк для браузеров без svh */
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--rd-bg-dark); /* фолбэк пока hero-ai.png не загрузился */
+  color: #fff;
+  font-family: Unbounded, sans-serif;
+}
+
+/* Фоновое изображение на весь экран */
+.rd-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--rd-bg-dark);
+}
+
+.rd-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  /* медленный зум 1.0 -> 1.06 за 12s, бесконечно туда-обратно */
+  transform: scale(1);
+  animation: rdHeroZoom 12s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes rdHeroZoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.06); }
+}
+
+/* Градиент-оверлей сверху вниз */
+.rd-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 10, 0.5) 0%,
+    rgba(10, 10, 10, 0.8) 100%
+  );
+}
+
+.rd-hero__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1656px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+}
+
+.rd-hero__content {
+  max-width: 880px;
+}
+
+/* Бейдж-капсула */
+.rd-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  margin-bottom: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  /* мягкое появление бейджа */
+  opacity: 0;
+  transform: translateY(16px);
+  animation: rdFadeUp 0.8s var(--rd-ease-out-expo) 0.1s forwards;
+}
+
+.rd-hero__badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #62FF00;
+  box-shadow: 0 0 10px rgba(98, 255, 0, 0.8);
+  flex-shrink: 0;
+}
+
+/* H1 — пословная stagger-анимация */
+.rd-hero__title {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 24px;
+  text-wrap: balance;
+}
+
+/* Слова H1 (span'ы создаёт JS). До анимации спрятаны. */
+.rd-hero__word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  will-change: transform, opacity;
+}
+
+.rd-hero__word.is-in {
+  animation: rdWordIn 0.9s var(--rd-ease-out-expo) forwards;
+  animation-delay: var(--word-delay, 0ms);
+}
+
+@keyframes rdWordIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rd-hero__title-accent {
+  background-image: linear-gradient(81.56deg, var(--rd-accent-2) 0.38%, #0063DC 189.83%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Подзаголовок */
+.rd-hero__subtitle {
+  font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 36px;
+  max-width: 620px;
+  opacity: 0;
+  transform: translateY(20px);
+  /* появляется после заголовка */
+  animation: rdFadeUp 0.9s var(--rd-ease-out-expo) forwards;
+}
+
+/* CTA */
+.rd-hero__cta-wrap {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: rdFadeUp 0.9s var(--rd-ease-out-expo) forwards;
+}
+
+.rd-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 44px;
+  border-radius: 6px;
+  font-family: Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(81.56deg, var(--rd-accent-2) 0.38%, #0063DC 189.83%);
+  box-shadow: 0 0 0 0 rgba(0, 124, 255, 0.45);
+  animation: rdCtaPulse 4s ease-in-out infinite;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rd-hero__cta:hover {
+  transform: translateY(-2px);
+}
+
+.rd-hero__cta svg {
+  width: 18px;
+  height: 18px;
+}
+
+@keyframes rdCtaPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 124, 255, 0.45); }
+  50%      { box-shadow: 0 0 0 14px rgba(0, 124, 255, 0); }
+}
+
+/* Счётчики */
+.rd-hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 56px;
+  margin-top: 56px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: rdFadeUp 0.9s var(--rd-ease-out-expo) forwards;
+}
+
+.rd-hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rd-hero__stat-num {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  background-image: linear-gradient(81.56deg, #fff 0%, var(--rd-accent-2) 160%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.rd-hero__stat-label {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.02em;
+}
+
+/* Общая fade-up анимация для второстепенных hero-элементов */
+@keyframes rdFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===========================================================================
+   ПЕРЕИСПОЛЬЗУЕМАЯ СИСТЕМА СКРОЛЛ-АНИМАЦИЙ
+   =========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s var(--rd-ease-out-expo),
+    transform 0.7s var(--rd-ease-out-expo);
+  /* задержка stagger (по умолчанию 0) */
+  transition-delay: calc(var(--stagger-i, 0) * 100ms);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===========================================================================
+   ЗАГЛУШКА ПОД БУДУЩИЕ AI-КАРТИНКИ
+   =========================================================================== */
+.ai-img-placeholder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* переопредели inline при необходимости */
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1c1c22;
+}
+
+.ai-img-placeholder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: translateX(-100%);
+  animation: rdShimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes rdShimmer {
+  to { transform: translateX(100%); }
+}
+
+/* ===========================================================================
+   АДАПТИВ
+   =========================================================================== */
+@media (max-width: 768px) {
+  .rd-hero__inner {
+    padding: 100px 16px 64px;
+  }
+  .rd-hero__stats {
+    gap: 28px 40px;
+    margin-top: 40px;
+  }
+  /* На мобильных stagger выключаем — остаётся простой fade-in */
+  .reveal {
+    transition-delay: 0ms !important;
+  }
+}
+
+/* ===========================================================================
+   PREFERS-REDUCED-MOTION — отключаем всё, контент сразу видим
+   =========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .rd-hero__img {
+    animation: none !important;
+    transform: none !important;
+  }
+  .rd-hero__badge,
+  .rd-hero__subtitle,
+  .rd-hero__cta-wrap,
+  .rd-hero__stats,
+  .rd-hero__word {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .rd-hero__cta {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .ai-img-placeholder::after {
+    animation: none !important;
+  }
+}
