@@ -26,9 +26,11 @@
   align-items: flex-end;
   padding-block: 56px 40px;
   background:
+    linear-gradient(90deg, rgba(232, 126, 24, 0.06) 0%, transparent 40%),
     radial-gradient(120% 90% at 15% 0%, rgba(43, 43, 181, 0.28) 0%, transparent 55%),
     radial-gradient(90% 80% at 95% 10%, rgba(232, 126, 24, 0.12) 0%, transparent 50%),
     linear-gradient(180deg, #0d0d1a 0%, #0a0a0a 100%);
+  border-left: 4px solid #E87E18;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
 }

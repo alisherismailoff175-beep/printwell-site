@@ -64,7 +64,11 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: var(--rd-bg-dark); /* фолбэк пока hero-ai.png не загрузился */
+  /* Оранжевый акцент-градиент внутри hero + фолбэк-фон #0a0a0a */
+  background:
+    linear-gradient(90deg, rgba(232, 126, 24, 0.06) 0%, transparent 40%),
+    var(--rd-bg-dark);
+  border-left: 4px solid #E87E18;
   color: #fff;
   font-family: Unbounded, sans-serif;
 }
