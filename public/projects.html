@@ -1,21 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="O7paWzGJu07LHwOcosdN8M-RX8SoljnYCSnK1jqlRnE" />
-  <title>PrintWell | Наши проекты</title>
 
-  <style>
-    #mobile-sidebar {position: fixed;inset: 0;max-width: 320px;width: 100%;background: #050810;transform: translateX(-100%);transition: transform 0.3s ease;z-index: 50;}#mobile-sidebar.open {transform: translateX(0);}html {scrollbar-gutter: stable;}*, ::before, ::after {box-sizing: border-box;border-width: 0;border-style: solid;border-color: #e5e7eb;}::before, ::after {--tw-content: '';}img, video {max-width: 100%;height: auto;}html {line-height: 1.5;-webkit-text-size-adjust: 100%;-moz-tab-size: 4;-o-tab-size: 4;tab-size: 4;font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings: normal;font-variation-settings: normal;}body {margin: 0;line-height: inherit;}hr {height: 0;color: inherit;border-top-width: 1px;}abbr:where([title]) {-webkit-text-decoration: underline dotted;text-decoration: underline dotted;}h1, h2, h3, h4, h5, h6 {font-size: inherit;font-weight: inherit;}a {color: inherit;text-decoration: inherit;}b, strong {font-weight: bolder;}code, kbd, samp, pre {font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size: 1em;}small {font-size: 80%;}sub, sup {font-size: 75%;line-height: 0;position: relative;vertical-align: baseline;}sub {bottom: -0.25em;}sup {top: -0.5em;}table {text-indent: 0;border-color: inherit;border-collapse: collapse;}button, input, optgroup, select, textarea {font-family: inherit;font-feature-settings: inherit;font-variation-settings: inherit;font-size: 100%;font-weight: inherit;line-height: inherit;color: inherit;margin: 0;padding: 0;}button, select {text-transform: none;}button, [type='button'], [type='reset'], [type='submit'] {-webkit-appearance: button;background-color: transparent;background-image: none;}:-moz-focusring {outline: auto;}:-moz-ui-invalid {box-shadow: none;}progress {vertical-align: baseline;}::-webkit-inner-spin-button, ::-webkit-outer-spin-button {height: auto;}[type='search'] {-webkit-appearance: textfield;outline-offset: -2px;}::-webkit-search-decoration {-webkit-appearance: none;}::-webkit-file-upload-button {-webkit-appearance: button;font: inherit;}summary {display: list-item;}blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {margin: 0;}fieldset {margin: 0;padding: 0;}legend {padding: 0;}ol, ul, menu {list-style: none;margin: 0;padding: 0;}dialog {padding: 0;}textarea {resize: vertical;}input::-moz-placeholder, textarea::-moz-placeholder {opacity: 1;color: #9ca3af;}input::placeholder, textarea::placeholder {opacity: 1;color: #9ca3af;}button, [role="button"] {cursor: pointer;}:disabled {cursor: default;}img, svg, video, canvas, audio, iframe, embed, object {display: block;vertical-align: middle;}h3 {min-height: 46px;}p {min-height: 110px;}
-  </style>
+  <!-- PRIMARY SEO -->
+  <title>Наши работы — PrintWell | портфолио упаковки и полиграфии</title>
+  <meta name="description"
+    content="Портфолио PrintWell: реализованные проекты упаковки, полиграфии, премиум-отделки и мерча для ведущих компаний Узбекистана — фармацевтика, IT, fashion, банки, luxury-бренды.">
+  <meta name="keywords"
+    content="портфолио типографии, работы PrintWell, упаковка, каталоги, визитки, фольгирование, проекты, Узбекистан">
+
+  <!-- CANONICAL -->
+  <link rel="canonical" href="https://printwell.uz/projects.html">
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PrintWell">
+  <meta property="og:title" content="Наши работы — PrintWell">
+  <meta property="og:description"
+    content="Реализованные проекты для ведущих компаний Узбекистана: упаковка, полиграфия, премиум-отделка, мерч.">
+  <meta property="og:url" content="https://printwell.uz/projects.html">
+  <meta property="og:image" content="https://printwell.uz/img/printHero.avif">
+
+  <!-- 🔥 Unbounded фонты preload (critical path) -->
+  <link rel="preload" as="font" href="/fonts/Unbounded-Light.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="/fonts/Unbounded-Regular.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="/fonts/Unbounded-Medium.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="/fonts/Unbounded-Bold.woff2" type="font/woff2" crossorigin>
+
   <link rel="stylesheet" href="./css/styles.css">
-  <link rel="stylesheet" href="./css/output.css">
+  <link rel="stylesheet" href="./css/redesign.css">
+  <link rel="stylesheet" href="./css/services.css">
+  <link rel="stylesheet" href="./css/pages.css">
 </head>
 
-<body>
+<body class="svc-page prj-page">
+  <!-- =========================================================================
+       HEADER (1:1 из index.html)
+       ========================================================================= -->
   <header class="gradient-header md:py-4 py-3 h-[72px]">
     <div class="max-w-[1656px] mx-auto px-3 flex items-center justify-between gap-3">
       <div>
@@ -23,22 +49,23 @@
           <img src="./img/header/logo.svg" loading="lazy" width="88" height="48" alt="logo" class="w-16 md:w-[88px]">
         </a>
       </div>
+
       <nav class="hidden lg:flex items-center lg:gap-6 gap-3 flex-1 justify-end">
         <ul class="flex items-center lg:gap-6 gap-3">
           <li><a href="./about.html"
-              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]">О
+              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]" data-i18n="nav.about">О
               нас</a></li>
           <li><a href="./services.html"
-              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]">Наши
+              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]" data-i18n="nav.services">Наши
               услуги</a></li>
           <li><a href="./projects.html"
-              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]">Наши
+              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]" data-i18n="nav.projects">Наши
               проекты</a></li>
           <li><a href="./partners.html"
-              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]">Наши
+              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]" data-i18n="nav.partners">Наши
               партнеры</a></li>
           <li><a href="./request.html"
-              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]">Контакты</a>
+              class="text-white lg:text-sm text-xs leading-4 font-normal transition-all duration-150 hover:text-[#007CFF]" data-i18n="nav.contacts">Контакты</a>
           </li>
           <li class="lg:pl-6 lg:pr-0 px-3 border-l border-[#D9D9D9]">
             <a href="https://facebook.com/pr1ntwell.uz" target="_blank"
@@ -61,6 +88,15 @@
                   fill="currentColor" />
               </svg>
             </a>
+          </li>
+          <li class="lg:px-6 px-3 border-r border-[#D9D9D9]">
+            <div class="rd-lang" role="group" aria-label="Выбор языка / Language">
+              <button type="button" class="rd-lang__btn rd-lang__btn--active" data-lang="ru">RU</button>
+              <span class="rd-lang__sep" aria-hidden="true">|</span>
+              <button type="button" class="rd-lang__btn" data-lang="uz">UZ</button>
+              <span class="rd-lang__sep" aria-hidden="true">|</span>
+              <button type="button" class="rd-lang__btn" data-lang="en">EN</button>
+            </div>
           </li>
           <li>
             <a href="tel:+998 90 903 55 52"
@@ -86,40 +122,39 @@
     </div>
   </header>
 
-
   <aside
-  id="mobile-sidebar"
-  class="sidebar fixed top-[72px] right-0 h-[92vh] w-full bg-[#012249] z-50 overflow-y-auto px-4 py-6 flex flex-col
-         translate-x-full
-         transition-transform duration-300  will-change-transform">
+    id="mobile-sidebar"
+    class="sidebar fixed top-[72px] right-0 h-[92vh] w-full bg-[#012249] z-50 overflow-y-auto px-4 py-6 flex flex-col
+           translate-x-full
+           transition-transform duration-300  will-change-transform">
     <div>
-      <h3 class="text-white text-xl leading-8 mb-4 min-h-[46px]">Menu</h3>
+      <h3 class="text-white text-xl leading-8 mb-4 min-h-[46px]" data-i18n="nav.menu">Menu</h3>
       <ul>
-        <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]" href="./about.html">О
+        <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]" href="./about.html" data-i18n="nav.about">О
             нас</a>
         </li>
         <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]"
-            href="./services.html">Наши
+            href="./services.html" data-i18n="nav.services">Наши
             услуги</a></li>
         <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]"
-            href="./projects.html">Наши
+            href="./projects.html" data-i18n="nav.projects">Наши
             проекты</a></li>
         <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]"
-            href="./partners.html">Наши
+            href="./partners.html" data-i18n="nav.partners">Наши
             партнеры</a></li>
         <li class="py-4"><a class="text-white text-sm leading-4 duration-200 hover:text-[#007CFF]"
-            href="./request.html">Контакты</a>
+            href="./request.html" data-i18n="nav.contacts">Контакты</a>
         </li>
       </ul>
     </div>
     <div class="flex flex-col gap-2 mt-auto">
       <div class="flex items-center justify-between bg-white/10 p-2 rounded-lg"
         style="backdrop-filter: blur(202.8000030517578px)">
-        <button
+        <button data-lang="ru"
           class="lang__active text-white max-w-[109px] w-full duration-200 hover:bg-white/10 flex items-center justify-center py-3 rounded text-sm leading-4">Рус</button>
-        <button
+        <button data-lang="uz"
           class="text-white max-w-[109px] w-full duration-200 hover:bg-white/10 flex items-center justify-center py-3 rounded text-sm leading-4">Uz</button>
-        <button
+        <button data-lang="en"
           class="text-white max-w-[109px] w-full duration-200 hover:bg-white/10 flex items-center justify-center py-3 rounded text-sm leading-4">Eng</button>
       </div>
       <a href="https://facebook.com/pr1ntwell.uz" target="_blank"
@@ -153,190 +188,210 @@
     </div>
   </aside>
 
-  <section class="pt-16 md:pb-[120px] pb-16">
-    <div class="max-w-[1656px] px-3 mx-auto">
-      <h1 class="text-black font-bold lg:text-5xl md:text-3xl text-2xl lg:leading-[120%] mb-3">Наши проекты</h1>
-      <p class="text-black font-light lg:text-base md:text-sm text-xs !leading-6 max-w-[685px] md:mb-5 mb-16">
-        Вашему вниманию представляется Printwell — ваш верный спутник в мире полиграфии, который с 1997 года воплощает
-        в жизнь самые смелые идеи.
+  <!-- =========================================================================
+       1. PAGE HERO
+       ========================================================================= -->
+  <section class="pg-hero" aria-labelledby="prj-hero-title">
+    <div class="svc-wrap">
+      <nav class="svc-breadcrumbs reveal" aria-label="Хлебные крошки">
+        <a href="./index.html" data-i18n="prj.crumb.home">Главная</a>
+        <span class="svc-breadcrumbs__sep" aria-hidden="true">→</span>
+        <span aria-current="page" data-i18n="prj.crumb.current">Наши работы</span>
+      </nav>
+      <h1 class="pg-hero__title reveal" id="prj-hero-title" data-i18n="prj.hero.title">Наши работы</h1>
+      <p class="pg-hero__subtitle reveal" data-i18n="prj.hero.subtitle">
+        Реализованные проекты для ведущих компаний Узбекистана
       </p>
+    </div>
+  </section>
 
-      <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-        <!-- LCP: faqat shu rasm eager + high -->
-        <img
-          class="w-full rounded-lg overflow-hidden h-[340px] p-5 bg-[#F4F4F4]"
-          src="./img/services/1.avif"
-          alt="image"
-          width="300"
-          height="201"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        >
-        <!-- qolganlari lazy -->
-        <img
-          class="w-full rounded-lg overflow-hidden h-[340px] p-5 bg-[#F4F4F4]"
-          src="./img/services/2.avif"
-          alt="image"
-          width="300"
-          height="201"
-          loading="lazy"
-          decoding="async"
-        >
-        <img
-          class="w-full rounded-lg overflow-hidden h-[340px] p-5 bg-[#F4F4F4]"
-          src="./img/services/3.avif"
-          alt="image"
-          width="300"
-          height="201"
-          loading="lazy"
-          decoding="async"
-        >
-        <img
-          class="w-full rounded-lg overflow-hidden h-[340px] p-5 bg-[#F4F4F4]"
-          src="./img/services/4.avif"
-          alt="image"
-          width="300"
-          height="201"
-          loading="lazy"
-          decoding="async"
-        >
-        <img
-          class="w-full rounded-lg overflow-hidden h-[340px] p-5 bg-[#F4F4F4]"
-          src="./img/services/5.avif"
-          alt="image"
-          width="300"
-          height="201"
-          loading="lazy"
-          decoding="async"
-        >
-        <img
-          class="w-full rounded-lg overflow-hidden h-[340px] p-5 bg-[#F4F4F4]"
-          src="./img/services/6.avif"
-          alt="image"
-          width="300"
-          height="201"
-          loading="lazy"
-          decoding="async"
-        >
-        <img
-          class="w-full rounded-lg overflow-hidden h-[340px] p-5 bg-[#F4F4F4]"
-          src="./img/services/7.avif"
-          alt="image"
-          width="300"
-          height="201"
-          loading="lazy"
-          decoding="async"
-        >
-        <img
-          class="w-full rounded-lg overflow-hidden h-[340px] p-5 bg-[#F4F4F4]"
-          src="./img/services/8.avif"
-          alt="image"
-          width="300"
-          height="201"
-          loading="lazy"
-          decoding="async"
-        >
+  <!-- =========================================================================
+       2. ФИЛЬТРЫ (sticky, стиль svc-tabs)
+       ========================================================================= -->
+  <div class="svc-tabs" role="region" aria-label="Фильтр проектов">
+    <div class="svc-tabs__inner" role="tablist">
+      <button type="button" class="svc-tab svc-tab--active" data-filter="all" aria-pressed="true" data-i18n="svc.tab.all">Все</button>
+      <button type="button" class="svc-tab" data-filter="packaging" aria-pressed="false" data-i18n="svc.tab.packaging">Упаковка</button>
+      <button type="button" class="svc-tab" data-filter="print" aria-pressed="false" data-i18n="svc.tab.print">Полиграфия</button>
+      <button type="button" class="svc-tab" data-filter="premium" aria-pressed="false" data-i18n="svc.tab.premium">Премиум-отделка</button>
+      <button type="button" class="svc-tab" data-filter="merch" aria-pressed="false" data-i18n="svc.tab.merch">Мерч</button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       3. СЕТКА ПРОЕКТОВ (12 карточек)
+       ========================================================================= -->
+  <section class="pg-section" aria-label="Портфолио PrintWell">
+    <div class="svc-wrap">
+      <ul class="prj-grid" data-stagger role="list">
+
+        <!-- 1 -->
+        <li class="prj-card reveal" data-category="packaging">
+          <div class="prj-card__media">
+            <!-- AI-IMG: pharmaceutical packaging — a set of medicine boxes and blister cartons with clean branding on a dark studio background, cinematic lighting, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Упаковка для фармацевтики"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.packaging">Упаковка</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p1.title">Упаковка для фармацевтики</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p1.title">Упаковка для фармацевтики</h3></div>
+        </li>
+
+        <!-- 2 -->
+        <li class="prj-card reveal" data-category="print">
+          <div class="prj-card__media">
+            <!-- AI-IMG: corporate catalogue and brochures for an IT company, modern glossy print, open spread with charts, dark background, cinematic studio light, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Каталог и брошюры для IT-компании"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.print">Полиграфия</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p2.title">Каталог и брошюры для IT-компании</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p2.title">Каталог и брошюры для IT-компании</h3></div>
+        </li>
+
+        <!-- 3 -->
+        <li class="prj-card reveal" data-category="packaging">
+          <div class="prj-card__media">
+            <!-- AI-IMG: premium hang tags and labels for a fashion brand, thick cardstock with foil and die-cut, string and eyelets, dark background, macro product shot, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Ярлыки для fashion-бренда"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.packaging">Упаковка</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p3.title">Ярлыки для fashion-бренда</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p3.title">Ярлыки для fashion-бренда</h3></div>
+        </li>
+
+        <!-- 4 -->
+        <li class="prj-card reveal" data-category="premium">
+          <div class="prj-card__media">
+            <!-- AI-IMG: cosmetic boxes with gold foil stamping detail, luxury packaging close-up, dark moody studio background, dramatic directional light, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Фольгирование коробок для косметики"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.premium">Премиум</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p4.title">Фольгирование коробок для косметики</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p4.title">Фольгирование коробок для косметики</h3></div>
+        </li>
+
+        <!-- 5 -->
+        <li class="prj-card reveal" data-category="print">
+          <div class="prj-card__media">
+            <!-- AI-IMG: business cards with glossy Spot UV detail for a bank, fan layout on dark designer paper, macro close-up, cinematic light, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Визитки с Spot UV для банка"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.print">Полиграфия</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p5.title">Визитки с Spot UV для банка</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p5.title">Визитки с Spot UV для банка</h3></div>
+        </li>
+
+        <!-- 6 -->
+        <li class="prj-card reveal" data-category="merch">
+          <div class="prj-card__media">
+            <!-- AI-IMG: corporate merch set with printed logo — pens, notebooks, tote bag and badge for a corporate event, dark studio background, cinematic lighting, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Мерч с логотипом для корпоратива"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.merch">Мерч</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p6.title">Мерч с логотипом для корпоратива</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p6.title">Мерч с логотипом для корпоратива</h3></div>
+        </li>
+
+        <!-- 7 -->
+        <li class="prj-card reveal" data-category="packaging">
+          <div class="prj-card__media">
+            <!-- AI-IMG: confectionery packaging — elegant cardboard boxes for sweets and pastries with brand print, dark background, cinematic studio light, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Упаковка для кондитерской"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.packaging">Упаковка</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p7.title">Упаковка для кондитерской</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p7.title">Упаковка для кондитерской</h3></div>
+        </li>
+
+        <!-- 8 -->
+        <li class="prj-card reveal" data-category="print">
+          <div class="prj-card__media">
+            <!-- AI-IMG: corporate notebooks and document folders with embossed emblem for a government institution, formal style, dark background, cinematic light, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Блокноты и папки для госструктуры"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.print">Полиграфия</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p8.title">Блокноты и папки для госструктуры</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p8.title">Блокноты и папки для госструктуры</h3></div>
+        </li>
+
+        <!-- 9 -->
+        <li class="prj-card reveal" data-category="premium">
+          <div class="prj-card__media">
+            <!-- AI-IMG: luxury brand packaging with blind embossing and soft-touch lamination, premium rigid box detail, dark elegant studio background, dramatic light, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Тиснение и ламинация для luxury-бренда"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.premium">Премиум</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p9.title">Тиснение и ламинация для luxury-бренда</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p9.title">Тиснение и ламинация для luxury-бренда</h3></div>
+        </li>
+
+        <!-- 10 -->
+        <li class="prj-card reveal" data-category="packaging">
+          <div class="prj-card__media">
+            <!-- AI-IMG: self-adhesive labels for a food brand applied on jars and packaging, vivid colour print, dark studio background, cinematic light, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Этикетки для продуктового бренда"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.packaging">Упаковка</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p10.title">Этикетки для продуктового бренда</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p10.title">Этикетки для продуктового бренда</h3></div>
+        </li>
+
+        <!-- 11 -->
+        <li class="prj-card reveal" data-category="merch">
+          <div class="prj-card__media">
+            <!-- AI-IMG: branded thermoses and ceramic mugs with engraved and printed logo, set on a dark studio background, cinematic product lighting, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Термосы и кружки с логотипом"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.merch">Мерч</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p11.title">Термосы и кружки с логотипом</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p11.title">Термосы и кружки с логотипом</h3></div>
+        </li>
+
+        <!-- 12 -->
+        <li class="prj-card reveal" data-category="premium">
+          <div class="prj-card__media">
+            <!-- AI-IMG: premium rigid gift box with a magnetic closure, opened to show the lid, luxury packaging, dark studio background, dramatic cinematic light, photorealistic, 4:3 -->
+            <div class="ai-img-placeholder prj-card__img" role="img" aria-label="Жёсткие коробки с магнитным замком"></div>
+            <span class="prj-card__cat" data-i18n="svc.cat.premium">Премиум</span>
+            <div class="prj-card__overlay"><span class="prj-card__name" data-i18n="prj.p12.title">Жёсткие коробки с магнитным замком</span></div>
+          </div>
+          <div class="prj-card__body"><h3 class="prj-card__title" data-i18n="prj.p12.title">Жёсткие коробки с магнитным замком</h3></div>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       4. CTA
+       ========================================================================= -->
+  <section class="svc-cta-section" aria-label="Обсудить проект">
+    <div class="svc-wrap">
+      <div class="svc-cta reveal">
+        <h2 class="svc-cta__title" data-i18n="prj.cta.title">Хотите такой же результат?</h2>
+        <a class="svc-cta__btn svc-cta__btn--blue" href="./request.html">
+          <span data-i18n="svc.cta.btn">Обсудить проект</span>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
     </div>
   </section>
 
+  <!-- =========================================================================
+       FOOTER (1:1 из index.html)
+       ========================================================================= -->
   <div class="bg-[linear-gradient(360deg,#001733_-11.26%,#007BFF_161.41%)]">
-
-    <section class="lg:pt-12 pt-10 lg:pb-[137px] pb-20">
-      <div class="max-w-[1656px] mx-auto px-3">
-        <div class="font-[Unbounded] flex flex-col lg:flex-row lg:gap-4 justify-between">
-          <div class="text-white mb-10 lg:mb-0 pt-3 md:pt-0 w-full">
-            <h2 class="text-3xl md:text-4xl lg:text-5xl flex font-bold !leading-[120%] mb-3 md:mb-5.5">
-              ЗАКАЗАТЬ
-              <br>
-              СЕЙЧАС
-              <div class="bg-[#62FF00] w-4 md:w-4.5 h-4 md:h-4.5 rounded-full"></div>
-            </h2>
-            <p class="text-xs sm:text-sm md:text-base font-light !leading-6 max-w-[623px] mb-[26px]">
-              PrintWell придерживается принципа надежного партнерства.
-              Мы установили долгосрочное и эффективное сотрудничество с организациями в различных сферах.
-            </p>
-            <div class="flex flex-col gap-6 md:p-6 p-4 bg-white/5 rounded-lg md:min-h-[385px]"
-              style="backdrop-filter: blur(202.8000030517578px)">
-              <div>
-                <p class="text-white/70 font-light text-base leading-6 mb-2">Email</p>
-                <a class="text-white font-bold lg:text-2xl md:text-lg text-base lg:leading-[120%]"
-                  href="mailto: email@print.uz">printwell@list.ru</a>
-              </div>
-              <div>
-                <p class="text-white/70 font-light text-base leading-6 mb-2">Phone number</p>
-                <a class="text-white font-bold lg:text-2xl md:text-lg text-base lg:leading-[120%]"
-                  href="tel: +998 90 903 55 52">+998 90 903 55 52</a>
-              </div>
-              <div>
-                <p class="text-white/70 font-light text-base leading-6 mb-2">Location</p>
-                <a target="_blank"
-                  class="text-white font-bold lg:text-2xl md:text-lg text-base lg:leading-[120%]"
-                  href="https://maps.app.goo.gl/ntWVtuAHKQ7r1pne7">Qatartol ko'chasi 1, 100097, Toshkent, Toshken</a>
-              </div>
-            </div>
-          </div>
-
-          <form
-            class="flex flex-col bg-[#FFFFFF0D] ha-auto backdrop-blur-[202.8px] p-4 md:p-6 max-w-212.5 w-full rounded-lg">
-            <h3 class="text-xl sm:text-2xl md:text-[32px] font-bold leading-[1.2] text-[#85BEFF] mb-8">Мы
-              свяжемся с вами!</h3>
-
-            <label class="text-[13px] md:text-base font-medium leading-6 text-white mb-2 md:mb-4"
-              for="name">Ваше
-              имя</label>
-            <input required id="name"
-              class="bg-[#FFFFFF1A] py-2.5 md:py-5 px-2 md:px-4 mb-4 md:mb-8 text-white focus:border focus:border-white outline-none"
-              type="text" />
-
-            <label class="text-[13px] md:text-base font-medium leading-6 text-white mb-2 md:mb-4"
-              for="email">Ваш номер
-              телефона</label>
-
-            <input required id="email"
-              class="bg-[#FFFFFF1A] py-2.5 md:py-5 px-2 md:px-4 mb-4 md:mb-8 text-white focus:border focus:border-white outline-none"
-              type="text" />
-
-            <label class="text-[13px] md:text-base font-medium leading-6 text-white mb-2 md:mb-4"
-              for="phone">Название
-              вашей
-              компании</label>
-
-            <input required id="phone"
-              class="bg-[#FFFFFF1A] py-2.5 md:py-5 px-2 md:px-4 mb-4 md:mb-8 text-white focus:border focus:border-white outline-none"
-              type="text" />
-            <button type="submit"
-              class="bg-[linear-gradient(81.56deg,#3D9AFF_0.38%,#0063DC_189.83%)] py-4 md:py-[22px] text-white max-w-200 w-full px-2 text-sm md:text-base md:px-4 cursor-pointer rounded">Отправить</button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div>
-        <iframe class="h-[652px] md:h-[614px] w-full"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3903.714943509418!2d69.20439499999999!3d41.28594929999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b69f94af207%3A0xd5dcef9f362547ce!2sPrintWell!5e1!3m2!1sen!2s!4v1764498092771!5m2!1sen!2s"
-          width="600" height="450" style="border:0" allowfullscreen="" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-    </section>
-
     <footer class="pt-16 pb-6">
       <div class="">
         <div
           class="max-w-445 mx-auto flex flex-col lg:flex-row items-start justify-between mb-22 sm:mb-30.25 font-[Unbounded] px-3">
           <div class="text-white mb-10 lg:mb-0">
             <a href="./index.html">
-              <img class="max-w-[132px] w-full mb-8" src="./img/footer/logo.svg" alt="Print well logo">
+              <img class="max-w-[132px] w-full mb-8" loading="lazy" src="./img/footer/logo.svg" alt="Print well logo">
             </a>
-            <h3 class="text-sm md:text-base font-bold max-w-167.75 w-full mb-4 leading-[1.2] uppercase ">
-              Работайте с
+            <h3 class="text-sm md:text-base font-bold max-w-167.75 w-full mb-4 leading-[1.2] uppercase " data-i18n="footer.tagline">Работайте с
               сильной командой, обладающей
               ценностями.</h3>
-            <p
-              class="text-xs md:text-sm font-light leading-3.5 md:leading-5 max-w-167.75 w-full opacity-50">
-              В PrintWell
+            <p class="text-xs md:text-sm font-light leading-3.5 md:leading-5 max-w-167.75 w-full opacity-50" data-i18n="footer.about">В PrintWell
               мы подходим к
               каждому
               проекту с
@@ -346,33 +401,63 @@
 
           <ul class="flex flex-col sm:flex-row items-start gap-6 md:gap-[35px]">
             <li><a class="text-sm text-white hover:text-[#007CFF] transform duration-500 font-normal leading-[100%]"
-                href="./services.html">Наши
+                href="./services.html" data-i18n="nav.services">Наши
                 услуги</a></li>
             <li><a class="text-sm text-white hover:text-[#007CFF] transform duration-500 font-normal leading-[100%]"
-                href="./projects.html">Наша
+                href="./projects.html" data-i18n="footer.work">Наша
                 работа</a></li>
             <li><a class="text-sm text-white hover:text-[#007CFF] transform duration-500 font-normal leading-[100%]"
-                href="./partners.html">Наши
+                href="./partners.html" data-i18n="nav.partners">Наши
                 партнеры</a></li>
             <li><a class="text-sm text-white hover:text-[#007CFF] transform duration-500 font-normal leading-[100%]"
-                href="./about.html">О
-                нас</a></li>
+                href="./about.html" data-i18n="nav.about">О
+                нас</a>
+            </li>
             <li><a class="text-sm text-white hover:text-[#007CFF] transform duration-500 font-normal leading-[100%]"
-                href="./request.html">Контакты</a></li>
+                href="./request.html" data-i18n="nav.contacts">Контакты</a></li>
           </ul>
         </div>
         <hr class="w-full h-px bg-white mb-6 opacity-20">
 
         <div
           class="max-w-445 mx-auto text-[#899EB2] text-left flex flex-col md:flex-row md:items-center justify-between font-[Helvetica Neue] px-3">
-          <p class="text-xs lg:text-xl font-light leading-8">Политика конфиденциальности 2025</p>
-          <p class="text-xs lg:text-xl font-light leading-8">Разработано агентством SIDQ</p>
+          <p class="text-xs lg:text-xl font-light leading-8" data-i18n="footer.privacy">Политика конфиденциальности 2025</p>
+          <p class="text-xs lg:text-xl font-light leading-8" data-i18n="footer.dev">Разработано агентством SIDQ</p>
         </div>
       </div>
     </footer>
   </div>
 
-  <script src="./js/app.js" defer></script>
+  <!-- Скрипт редизайна (сайдбар + i18n + скролл-анимации) -->
+  <script src="./js/redesign.js" defer></script>
+
+  <!-- Фильтрация карточек по табам (vanilla, без перезагрузки) -->
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll('.svc-tab');
+      var cards = document.querySelectorAll('.prj-card');
+      if (!tabs.length || !cards.length) return;
+
+      function applyFilter(filter) {
+        cards.forEach(function (card) {
+          var match = filter === 'all' || card.getAttribute('data-category') === filter;
+          card.hidden = !match;
+        });
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabs.forEach(function (t) {
+            t.classList.remove('svc-tab--active');
+            t.setAttribute('aria-pressed', 'false');
+          });
+          tab.classList.add('svc-tab--active');
+          tab.setAttribute('aria-pressed', 'true');
+          applyFilter(tab.getAttribute('data-filter'));
+        });
+      });
+    })();
+  </script>
 </body>
 
 </html>
