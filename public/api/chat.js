@@ -54,6 +54,19 @@ export default async function handler(req, res) {
 - Слово «заявка» по-узбекски — «ariza» (никогда не пиши «заявка» кириллицей).
 - Не выдумывай несуществующих слов; если сомневаешься в термине — используй простое понятное узбекское описание.`;
 
+  // Выбор модели по языку сообщения: узбекский → Sonnet (чище язык),
+  // русский → Haiku (быстро/дёшево, качество достаточное).
+  // На сайте русский = кириллица, узбекский = латиница.
+  // Узбекская кириллица (ў, қ, ғ, ҳ) тоже считается узбекским.
+  function pickModel(text) {
+    const s = String(text || '');
+    if (/[ўқғҳЎҚҒҲ]/.test(s)) return 'claude-sonnet-4-6';       // узбекская кириллица
+    if (/[а-яё]/i.test(s)) return 'claude-haiku-4-5';           // русский (кириллица)
+    if (/[a-z]/i.test(s)) return 'claude-sonnet-4-6';           // латиница → узбекский
+    return 'claude-haiku-4-5';                                   // по умолчанию
+  }
+  const model = pickModel(message);
+
   try {
     const messages = [...history.slice(-10), { role: 'user', content: message }];
 
@@ -65,7 +78,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5',
+        model,
         max_tokens: 500,
         system: SYSTEM_PROMPT,
         messages
