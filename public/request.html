@@ -214,7 +214,7 @@
     <div class="svc-wrap">
       <div class="req-layout reveal">
 
-        <form id="req-form" class="req-form" action="https://formspree.io/f/xojzkovb" method="POST">
+        <form id="req-form" class="req-form" action="/api/lead" method="POST">
           <h2 class="req-form__title" data-i18n="req.form.title">Расскажите о вашем заказе</h2>
           <p class="req-form__subtitle" data-i18n="req.form.subtitle">Поля со звёздочкой обязательны</p>
 
@@ -417,22 +417,44 @@
   <script src="./js/redesign.js" defer></script>
   <script src="./js/chat-widget.js" defer></script>
 
-  <!-- Отправка формы через Formspree (AJAX) + success-блок -->
+  <!-- Отправка формы через /api/lead → saveLead (почта + AmoCRM + Telegram) + success-блок -->
   <script>
     (function () {
       var form = document.getElementById('req-form');
       var success = document.getElementById('req-success');
       if (!form || !success) return;
 
+      function val(id) {
+        var el = document.getElementById(id);
+        return el ? el.value.trim() : '';
+      }
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var btn = form.querySelector('.req-submit');
         if (btn) btn.disabled = true;
 
-        fetch(form.action, {
+        // Компания + Тираж + Сообщение → один comment с подписями, пустые поля пропускаем.
+        var parts = [];
+        var company = val('req-company');
+        var qty = val('req-qty');
+        var message = val('req-message');
+        if (company) parts.push('Компания: ' + company);
+        if (qty) parts.push('Тираж: ' + qty);
+        if (message) parts.push(message);
+
+        var payload = {
+          name: val('req-name'),
+          phone: val('req-phone'),
+          email: val('req-email'),
+          product: val('req-product'),
+          comment: parts.join(' | ')
+        };
+
+        fetch('/api/lead', {
           method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         }).then(function (response) {
           if (response.ok) {
             form.style.display = 'none';

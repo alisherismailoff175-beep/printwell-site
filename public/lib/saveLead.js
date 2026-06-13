@@ -123,9 +123,12 @@ function buildAmoContactFields(lead) {
 }
 
 function formatTelegram(lead, amoLeadId) {
+  // Суффикс источника в заголовке: видно, откуда пришёл лид.
+  const srcSuffix =
+    lead.source === 'AI-чат' ? ' (чат)' : lead.source === 'форма сайта' ? ' (форма)' : '';
   // Пустые поля строкой не выводим. Заголовок жирный, между ним и полями — пустая строка.
   const lines = [
-    '🌐 <b>Новый лид С САЙТА</b>',
+    `🌐 <b>Новый лид С САЙТА${srcSuffix}</b>`,
     '',
     amoLeadId ? `📋 Сделка: №${escapeHtml(amoLeadId)}` : null,
     lead.name ? `👤 Имя: ${escapeHtml(lead.name)}` : null,
