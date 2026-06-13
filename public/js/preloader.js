@@ -10,8 +10,8 @@
 
   var KEY = 'pw_intro_shown';
   var SLOGAN = 'Типография полного цикла';
-  var TOTAL = 2500;   // полная длительность, мс
-  var OPEN_AT = 2000; // старт «раскрытия шторок», мс
+  var TOTAL = 3000;   // полная длительность, мс
+  var OPEN_AT = 2500; // старт «раскрытия шторок», мс
 
   // --- Условия пропуска -----------------------------------------------------
   var reduced = window.matchMedia &&
@@ -46,6 +46,31 @@
   bottom.className = 'pw-half pw-half--bottom';
   bottom.style.cssText = 'position:absolute;left:0;bottom:0;width:100%;height:50%;background:#0a0a0a;';
 
+  // ФАЗА 1.5 — вертикальные потёки краски CMYK (стекают сверху вниз на весь экран)
+  var drips = document.createElement('div');
+  drips.className = 'pw-drips';
+  // [left, color, delay s, duration s, width px]
+  var dripDefs = [
+    ['6%',  '#00B4D8', 0.00, 2.2, 16],
+    ['18%', '#E040FB', 0.50, 2.6, 12],
+    ['30%', '#FFD600', 0.20, 2.0, 18],
+    ['44%', '#111111', 0.80, 2.8, 14],
+    ['57%', '#00B4D8', 0.30, 2.4, 12],
+    ['69%', '#E040FB', 0.70, 2.1, 16],
+    ['81%', '#FFD600', 0.10, 2.7, 14],
+    ['92%', '#111111', 0.45, 2.3, 12]
+  ];
+  dripDefs.forEach(function (d) {
+    var el = document.createElement('span');
+    el.className = 'pw-drip';
+    el.style.left = d[0];
+    el.style.color = d[1];                 // currentColor используется в CSS
+    el.style.width = d[4] + 'px';
+    el.style.animationDelay = d[2] + 's';
+    el.style.animationDuration = d[3] + 's';
+    drips.appendChild(el);
+  });
+
   var content = document.createElement('div');
   content.className = 'pw-content';
 
@@ -68,8 +93,8 @@
   logo.className = 'pw-logo';
   logo.src = './img/header/logo-color.svg';
   logo.alt = 'PrintWell';
-  logo.width = 280;
-  logo.height = 151;
+  logo.width = 360;
+  logo.height = 194;
   logoWrap.appendChild(logo);
   content.appendChild(logoWrap);
 
@@ -90,6 +115,7 @@
 
   pre.appendChild(top);
   pre.appendChild(bottom);
+  pre.appendChild(drips);
   pre.appendChild(content);
 
   // --- Монтирование + блокировка скролла ------------------------------------

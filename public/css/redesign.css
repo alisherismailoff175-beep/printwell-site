@@ -1194,7 +1194,7 @@
 }
 
 .pw-header-logo {
-  height: 85px;
+  height: 80px;
   width: auto;
   display: block;
 }
@@ -1209,7 +1209,7 @@
     height: 72px !important;
   }
   .pw-header-logo {
-    height: 51px;
+    height: 64px;
   }
   #mobile-sidebar.sidebar {
     top: 72px;

@@ -1,6 +1,6 @@
 /* ===========================================================================
    preloader.css — интро-анимация PrintWell (CMYK)
-   Длительность ~2.5s, один раз за сессию (см. preloader.js).
+   Длительность ~3s, один раз за сессию (см. preloader.js).
    Чистый CSS, без библиотек.
    =========================================================================== */
 
@@ -67,15 +67,58 @@
   transform: scale(0);
   will-change: transform, opacity;
 }
-.pw-splash--tl { background: #00B4D8; animation: pwSplashTL 0.4s ease-out 0.30s forwards; } /* голубой — вверх-влево */
-.pw-splash--tr { background: #E040FB; animation: pwSplashTR 0.4s ease-out 0.35s forwards; } /* пурпурный — вверх-вправо */
-.pw-splash--bl { background: #FFD600; animation: pwSplashBL 0.4s ease-out 0.40s forwards; } /* жёлтый — вниз-влево */
-.pw-splash--br { background: #333333; animation: pwSplashBR 0.4s ease-out 0.45s forwards; } /* чёрный — вниз-вправо */
+.pw-splash--tl { background: #00B4D8; animation: pwSplashTL 0.6s ease-out 0.30s forwards; } /* голубой — вверх-влево */
+.pw-splash--tr { background: #E040FB; animation: pwSplashTR 0.6s ease-out 0.35s forwards; } /* пурпурный — вверх-вправо */
+.pw-splash--bl { background: #FFD600; animation: pwSplashBL 0.6s ease-out 0.40s forwards; } /* жёлтый — вниз-влево */
+.pw-splash--br { background: #333333; animation: pwSplashBR 0.6s ease-out 0.45s forwards; } /* чёрный — вниз-вправо */
 
-@keyframes pwSplashTL { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate(-120px, -120px) scale(3); } }
-@keyframes pwSplashTR { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate( 120px, -120px) scale(3); } }
-@keyframes pwSplashBL { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate(-120px,  120px) scale(3); } }
-@keyframes pwSplashBR { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate( 120px,  120px) scale(3); } }
+@keyframes pwSplashTL { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate(-55vw, -55vh) scale(9); } }
+@keyframes pwSplashTR { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate( 55vw, -55vh) scale(9); } }
+@keyframes pwSplashBL { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate(-55vw,  55vh) scale(9); } }
+@keyframes pwSplashBR { from { opacity: 1; transform: translate(0, 0) scale(0); }   to { opacity: 0; transform: translate( 55vw,  55vh) scale(9); } }
+
+/* ---- ФАЗА 1.5: вертикальные потёки краски CMYK (стекают на весь экран) ---- */
+.pw-drips {
+  position: absolute;
+  inset: 0;
+  z-index: 1;            /* над тёмными «шторками», под контентом (z-index:2) */
+  overflow: hidden;
+  pointer-events: none;
+}
+.pw-drip {
+  position: absolute;
+  top: 0;
+  width: 14px;
+  height: 48vh;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(to bottom, transparent 0%, currentColor 65%);
+  transform: translateY(-130%);
+  animation-name: pwDrip;
+  animation-timing-function: ease-in;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  opacity: 0.9;
+  will-change: transform;
+}
+.pw-drip::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 200%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translateX(-50%);
+}
+@keyframes pwDrip {
+  from { transform: translateY(-130%); }
+  to   { transform: translateY(125vh); }
+}
+#pw-preloader.is-opening .pw-drips {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
 /* ---- ФАЗА 3: логотип (на белом «чипе», т.к. надпись в SVG чёрная) ---- */
 .pw-logo-wrap {
@@ -88,7 +131,7 @@
   will-change: transform, opacity;
 }
 .pw-logo {
-  width: 280px;
+  width: 360px;
   max-width: 64vw;
   height: auto;
   display: block;
@@ -121,7 +164,7 @@
 
 /* ---- Мобильный: логотип меньше, брызги не рендерятся (см. JS) ---- */
 @media (max-width: 640px) {
-  .pw-logo { width: 180px; }
+  .pw-logo { width: 220px; }
   .pw-logo-wrap { padding: 20px 26px; border-radius: 18px; }
 }
 
