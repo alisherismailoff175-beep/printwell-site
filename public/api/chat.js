@@ -1,5 +1,7 @@
 // public/api/chat.js — AI-консультант PrintWell на Claude API
 // Лежит внутри public/, т.к. Root Directory проекта в Vercel = public/.
+import { saveLead } from '../lib/saveLead.js';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -52,7 +54,10 @@ export default async function handler(req, res) {
   • бумажные пакеты → qogʻoz paketlar
   • заявка → ariza
 - Слово «заявка» по-узбекски — «ariza» (никогда не пиши «заявка» кириллицей).
-- Не выдумывай несуществующих слов; если сомневаешься в термине — используй простое понятное узбекское описание.`;
+- Не выдумывай несуществующих слов; если сомневаешься в термине — используй простое понятное узбекское описание.
+
+СБОР КОНТАКТА:
+Когда клиент проявляет интерес к заказу (спрашивает про конкретный продукт, тираж, сроки) — естественно и ненавязчиво предложи оставить заявку: спроси как к нему обращаться (имя) и номер телефона, чтобы менеджер связался с расчётом. Не дави, спрашивай по одному. Как только получишь и имя, и телефон — вызови инструмент save_lead. После сохранения поблагодари и скажи, что менеджер свяжется в ближайшее время. НЕ проси контакт в первом же сообщении — сначала ответь на вопрос, помоги, и только когда виден реальный интерес.`;
 
   // Выбор модели по языку сообщения: узбекский → Sonnet (чище язык),
   // русский → Haiku (быстро/дёшево, качество достаточное).
@@ -67,10 +72,26 @@ export default async function handler(req, res) {
   }
   const model = pickModel(message);
 
-  try {
-    const messages = [...history.slice(-10), { role: 'user', content: message }];
+  // Инструмент сохранения заявки — модель вызывает его, когда есть имя+телефон.
+  const SAVE_LEAD_TOOL = {
+    name: 'save_lead',
+    description:
+      'Сохранить заявку клиента. Вызывай ТОЛЬКО когда у тебя есть и имя, и номер телефона клиента, и он заинтересован в заказе.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', description: 'Имя клиента' },
+        phone: { type: 'string', description: 'Номер телефона' },
+        product: { type: 'string', description: 'Какой продукт интересует (коробки, пакеты, этикетки и т.д.)' },
+        comment: { type: 'string', description: 'Детали: тираж, размер, отделка' }
+      },
+      required: ['name', 'phone']
+    }
+  };
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+  // Один вызов Anthropic Messages API с подключённым инструментом.
+  function callAnthropic(messages) {
+    return fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,17 +102,75 @@ export default async function handler(req, res) {
         model,
         max_tokens: 500,
         system: SYSTEM_PROMPT,
+        tools: [SAVE_LEAD_TOOL],
         messages
       })
     });
+  }
 
+  // Собираем текст из блоков ответа (ответ может содержать tool_use без text).
+  function textFrom(content) {
+    if (!Array.isArray(content)) return '';
+    return content
+      .filter((b) => b.type === 'text')
+      .map((b) => b.text)
+      .join('\n')
+      .trim();
+  }
+
+  try {
+    const messages = [...history.slice(-10), { role: 'user', content: message }];
+
+    let response = await callAnthropic(messages);
     if (!response.ok) {
       console.error('Anthropic error:', await response.text());
       return res.status(500).json({ error: 'AI error' });
     }
+    let data = await response.json();
 
-    const data = await response.json();
-    return res.status(200).json({ reply: data.content?.[0]?.text || '' });
+    // Tool use loop: модель решила сохранить заявку.
+    if (data.stop_reason === 'tool_use') {
+      const toolUse = (data.content || []).find(
+        (b) => b.type === 'tool_use' && b.name === 'save_lead'
+      );
+
+      if (toolUse) {
+        let toolResultContent = 'Заявка сохранена.';
+        try {
+          const result = await saveLead({ ...toolUse.input, source: 'AI-чат' });
+          toolResultContent = result.ok
+            ? 'Заявка успешно сохранена, менеджер свяжется с клиентом в ближайшее время.'
+            : 'Заявку временно не удалось сохранить, но данные приняты.';
+        } catch (e) {
+          console.error('saveLead error:', e);
+          toolResultContent = 'Заявку временно не удалось сохранить.';
+        }
+
+        // Второй запрос: отдаём модели результат инструмента, получаем финальный текст.
+        const followupMessages = [
+          ...messages,
+          { role: 'assistant', content: data.content },
+          {
+            role: 'user',
+            content: [
+              { type: 'tool_result', tool_use_id: toolUse.id, content: toolResultContent }
+            ]
+          }
+        ];
+
+        response = await callAnthropic(followupMessages);
+        if (!response.ok) {
+          console.error('Anthropic error (followup):', await response.text());
+          // Заявка уже сохранена — отдаём запасной текст, чтобы клиент не остался без ответа.
+          return res
+            .status(200)
+            .json({ reply: 'Спасибо! Заявка принята, менеджер скоро свяжется с вами.' });
+        }
+        data = await response.json();
+      }
+    }
+
+    return res.status(200).json({ reply: textFrom(data.content) });
 
   } catch (error) {
     console.error('Server error:', error);
