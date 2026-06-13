@@ -31,7 +31,8 @@
       open: 'Открыть чат',
       close: 'Закрыть чат',
       send: 'Отправить',
-      stub: 'Спасибо за сообщение! Менеджер скоро ответит. Для быстрого ответа напишите нам в Telegram.'
+      stub: 'Спасибо за сообщение! Менеджер скоро ответит. Для быстрого ответа напишите нам в Telegram.',
+      error: 'Не удалось получить ответ. Попробуйте ещё раз или напишите нам в Telegram.'
     },
     uz: {
       title: 'PrintWell Yordamchisi',
@@ -45,7 +46,8 @@
       open: 'Chatni ochish',
       close: 'Chatni yopish',
       send: 'Yuborish',
-      stub: 'Xabaringiz uchun rahmat! Menejer tez orada javob beradi. Tezkor javob uchun Telegramga yozing.'
+      stub: 'Xabaringiz uchun rahmat! Menejer tez orada javob beradi. Tezkor javob uchun Telegramga yozing.',
+      error: 'Javob olib bo‘lmadi. Qayta urinib ko‘ring yoki Telegramga yozing.'
     },
     en: {
       title: 'PrintWell Assistant',
@@ -59,7 +61,8 @@
       open: 'Open chat',
       close: 'Close chat',
       send: 'Send',
-      stub: 'Thanks for your message! A manager will reply shortly. For a quick reply, message us on Telegram.'
+      stub: 'Thanks for your message! A manager will reply shortly. For a quick reply, message us on Telegram.',
+      error: 'Could not get a reply. Please try again or message us on Telegram.'
     }
   };
 
@@ -117,7 +120,7 @@
       '</div>' +
       '<form class="pw-chat__inputbar" data-pw-form>' +
         '<input class="pw-chat__input" type="text" autocomplete="off" data-pw-input data-pw-i18n-ph="placeholder">' +
-        '<button class="pw-chat__send" type="submit" data-pw-i18n-aria="send">' + ICON_SEND + '</button>' +
+        '<button class="pw-chat__send" type="submit" data-pw-send data-pw-i18n-aria="send">' + ICON_SEND + '</button>' +
       '</form>' +
     '</div>';
 
@@ -160,25 +163,81 @@
     box.parentNode.scrollTop = box.parentNode.scrollHeight;
   }
 
+  /* ----- История диалога (накапливается, шлётся с каждым запросом) ----- */
+  var history = [];
+  var busy = false;
+
+  /* ----- Индикатор набора текста (typing) — без правки CSS -----
+     Временный bot-бабл с анимацией точек. Возвращает функцию удаления. */
+  function showTyping() {
+    var box = root.querySelector('[data-pw-messages]');
+    if (!box) return function () {};
+    var bubble = document.createElement('div');
+    bubble.className = 'pw-chat__msg pw-chat__msg--bot pw-chat__msg--typing';
+    bubble.textContent = '·';
+    box.appendChild(bubble);
+    box.parentNode.scrollTop = box.parentNode.scrollHeight;
+    var step = 0;
+    var timer = window.setInterval(function () {
+      step = (step + 1) % 3;
+      bubble.textContent = new Array(step + 2).join('·'); // ·, ··, ···
+    }, 350);
+    return function () {
+      window.clearInterval(timer);
+      if (bubble.parentNode) bubble.parentNode.removeChild(bubble);
+    };
+  }
+
+  /* ----- Блокировка ввода/кнопки на время запроса ----- */
+  function setBusy(state) {
+    busy = state;
+    var send = root.querySelector('[data-pw-send]');
+    var input = root.querySelector('[data-pw-input]');
+    if (send) send.disabled = state;
+    if (input) input.disabled = state;
+  }
+
   /* -------------------------------------------------------------------------
-     sendToAI(message)
-     Точка интеграции с реальным AI. Сейчас — заглушка: показывает сообщение
-     пользователя и типовой ответ. Когда появится backend:
-     // TODO: подключить /api/chat с Claude API
-     //   const res = await fetch('/api/chat', {
-     //     method: 'POST',
-     //     headers: { 'Content-Type': 'application/json' },
-     //     body: JSON.stringify({ message, lang: getLang() })
-     //   });
-     //   const data = await res.json();
-     //   appendMessage(data.reply, 'bot');
+     sendToAI(message) — реальный вызов /api/chat (Claude API).
+     Показывает сообщение пользователя, копит историю, шлёт её на сервер,
+     добавляет ответ бота. При ошибке — понятное сообщение, не "error".
      ------------------------------------------------------------------------- */
   function sendToAI(message) {
+    if (busy) return;
     appendMessage(message, 'user');
-    // Заглушка ответа (синхронно, без сети). Заменить на реальный вызов API.
-    window.setTimeout(function () {
-      appendMessage(t('stub'), 'bot');
-    }, 400);
+    history.push({ role: 'user', content: message });
+
+    setBusy(true);
+    var removeTyping = showTyping();
+
+    return fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: message, history: history.slice(0, -1) })
+    })
+      .then(function (response) {
+        if (!response.ok) throw new Error('API error');
+        return response.json();
+      })
+      .then(function (data) {
+        var reply = data && data.reply ? data.reply : '';
+        removeTyping();
+        if (reply) {
+          appendMessage(reply, 'bot');
+          history.push({ role: 'assistant', content: reply });
+        } else {
+          appendMessage(t('error'), 'bot');
+        }
+      })
+      .catch(function () {
+        removeTyping();
+        appendMessage(t('error'), 'bot');
+      })
+      .then(function () {
+        setBusy(false);
+        var input = root.querySelector('[data-pw-input]');
+        if (input) { try { input.focus(); } catch (e) {} }
+      });
   }
 
   /* ----- Привязка событий ----- */
