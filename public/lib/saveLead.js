@@ -13,7 +13,7 @@
 // Токены НЕ хардкодятся — только process.env. Telegram chat_id не секрет (зашит).
 
 const FORMSPREE_URL = 'https://formspree.io/f/xojzkovb';
-const TELEGRAM_CHAT_IDS = ['1729913765', '7747638712'];
+const TELEGRAM_CHAT_IDS = ['1729913765', '7747638712', '8605564470'];
 const AMOCRM_DOMAIN = 'gulom1071.amocrm.ru';
 
 export async function saveLead({ name, phone, email, product, comment, source } = {}) {
@@ -48,31 +48,8 @@ export async function saveLead({ name, phone, email, product, comment, source } 
     console.error('Formspree exception:', err);
   }
 
-  // --- Канал 2: Telegram (если настроен) ---
-  if (process.env.TELEGRAM_BOT_TOKEN) {
-    try {
-      const text = formatTelegram(lead);
-      const results = await Promise.all(
-        TELEGRAM_CHAT_IDS.map((chatId) =>
-          fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' })
-          })
-            .then((r) => r.ok)
-            .catch((e) => {
-              console.error('Telegram send exception:', e);
-              return false;
-            })
-        )
-      );
-      channels.telegram = results.some(Boolean);
-    } catch (err) {
-      console.error('Telegram exception:', err);
-    }
-  }
-
-  // --- Канал 3: AmoCRM (если настроен) ---
+  // --- Канал 2: AmoCRM (если настроен) — ДО Telegram, чтобы получить ID сделки ---
+  let amoLeadId = null;
   if (process.env.AMOCRM_ACCESS_TOKEN) {
     try {
       const body = [
@@ -96,10 +73,38 @@ export async function saveLead({ name, phone, email, product, comment, source } 
         },
         body: JSON.stringify(body)
       });
-      if (resp.ok) channels.amocrm = true;
-      else console.error('AmoCRM error:', resp.status, await safeText(resp));
+      if (resp.ok) {
+        channels.amocrm = true;
+        amoLeadId = await extractAmoLeadId(resp);
+      } else {
+        console.error('AmoCRM error:', resp.status, await safeText(resp));
+      }
     } catch (err) {
       console.error('AmoCRM exception:', err);
+    }
+  }
+
+  // --- Канал 3: Telegram (если настроен) — после AmoCRM, с ID сделки ---
+  if (process.env.TELEGRAM_BOT_TOKEN) {
+    try {
+      const text = formatTelegram(lead, amoLeadId);
+      const results = await Promise.all(
+        TELEGRAM_CHAT_IDS.map((chatId) =>
+          fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' })
+          })
+            .then((r) => r.ok)
+            .catch((e) => {
+              console.error('Telegram send exception:', e);
+              return false;
+            })
+        )
+      );
+      channels.telegram = results.some(Boolean);
+    } catch (err) {
+      console.error('Telegram exception:', err);
     }
   }
 
@@ -117,17 +122,37 @@ function buildAmoContactFields(lead) {
   return fields;
 }
 
-function formatTelegram(lead) {
+function formatTelegram(lead, amoLeadId) {
+  // Пустые поля строкой не выводим. Заголовок жирный, между ним и полями — пустая строка.
   const lines = [
-    '🆕 <b>Новая заявка</b>',
-    lead.source ? `Источник: ${escapeHtml(lead.source)}` : null,
-    lead.name ? `Имя: ${escapeHtml(lead.name)}` : null,
-    lead.phone ? `Телефон: ${escapeHtml(lead.phone)}` : null,
-    lead.email ? `Email: ${escapeHtml(lead.email)}` : null,
-    lead.product ? `Продукт: ${escapeHtml(lead.product)}` : null,
-    lead.comment ? `Детали: ${escapeHtml(lead.comment)}` : null
+    '🌐 <b>Новый лид С САЙТА</b>',
+    '',
+    amoLeadId ? `📋 Сделка: №${escapeHtml(amoLeadId)}` : null,
+    lead.name ? `👤 Имя: ${escapeHtml(lead.name)}` : null,
+    lead.phone ? `📞 Телефон: ${escapeHtml(lead.phone)}` : null,
+    lead.product ? `📦 Интересует: ${escapeHtml(lead.product)}` : null,
+    lead.comment ? `💬 Детали: ${escapeHtml(lead.comment)}` : null
   ];
-  return lines.filter(Boolean).join('\n');
+  // Отбрасываем только null (пустые поля), но сохраняем пустую строку-разделитель.
+  return lines.filter((l) => l !== null).join('\n');
+}
+
+// ID сделки из ответа AmoCRM /api/v4/leads/complex.
+// complex возвращает массив [{ id, contact_id, ... }]; на всякий случай
+// поддерживаем и форму { _embedded: { leads: [{ id }] } }.
+async function extractAmoLeadId(resp) {
+  try {
+    const data = await resp.json();
+    let id = null;
+    if (Array.isArray(data)) id = data[0] && data[0].id;
+    else if (data && data._embedded && Array.isArray(data._embedded.leads)) {
+      id = data._embedded.leads[0] && data._embedded.leads[0].id;
+    }
+    return id != null ? String(id) : null;
+  } catch (e) {
+    console.error('AmoCRM parse error:', e);
+    return null;
+  }
 }
 
 function escapeHtml(s) {
